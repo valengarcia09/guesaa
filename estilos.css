@@ -1,1 +1,15 @@
-css
+.rubik-spray-paint-regular {
+  font-family: "Rubik Spray Paint", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+body {
+    background-color: #ffba3a; /* Un tono oscuro/negro muy usado en hamburgueserías */
+    color: #ffffff;            /* Texto en blanco para que resalte */
+    margin: 0;
+    padding: 0;
+}
