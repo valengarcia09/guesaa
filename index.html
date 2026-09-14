@@ -16,7 +16,30 @@
 <body>
     <h1 class="rubik-spray-paint-regular">Tango Fast Food</h1>
 
+        <section id="menu" class="contenedor-menu">
+    <h2 class="titulo-seccion">Nuestro Menú</h2>
+
+    <!-- BOTONES DE CATEGORÍAS DE HAMBURGUESAS -->
+    <div class="categorias-container">
+        <button class="btn-categoria active" onclick="filtrarCategoria('todas', this)">Todas</button>
+        <button class="btn-categoria" onclick="filtrarCategoria('clasicas', this)">Clásicas</button>
+        <button class="btn-categoria" onclick="filtrarCategoria('dobles', this)">Dobles Cheddar</button>
+        <button class="btn-categoria" onclick="filtrarCategoria('especiales', this)">Especiales</button>
+        <button class="btn-categoria" onclick="filtrarCategoria('veggie', this)">Veggie / Veganas</button>
+    </div>
+
+    <!-- AQUÍ VAN TUS PRODUCTOS -->
+    <div class="product-grid">
+        <!-- Ejemplo de hamburguesa -->
+        <article class="product-card">
+            <h3>Doble Bacon Cheese</h3>
+            <p>Doble medallón, cheddar y panceta crocante.</p>
+            <span class="precio">$9.500</span>
+            <button class="btn-comprar">Agregar</button>
+        </article>
+    </div>
     
+</section>
 </body>
 </html>
 

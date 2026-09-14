@@ -13,3 +13,37 @@ body {
     margin: 0;
     padding: 0;
 }
+.categorias-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;                  /* Espacio entre botones */
+    flex-wrap: wrap;             /* Se acomodan si la pantalla es chica (celulares) */
+    margin: 20px 0 30px 0;
+}
+
+/* Estilo base de cada botón */
+.btn-categoria {
+    background-color: #ffffff;
+    color: #333333;
+    border: 2px solid #e0e0e0;
+    padding: 10px 20px;
+    border-radius: 25px;         /* Botones estilo píldora/redondeados */
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;   /* Animación al pasar el mouse */
+}
+
+/* EFECTOS: Cuando el mouse pasa por arriba */
+.btn-categoria:hover {
+    background-color: #ffb703;   /* Amarillo cheddar */
+    border-color: #ffb703;
+    color: #000000;
+}
+
+/* Botón ACTIVO (el seleccionado actualmente) */
+.btn-categoria.active {
+    background-color: #ff9822;   /* Rojo hamburguesería */
+    border-color: #000000;
+    color: #ffffff;
+}
