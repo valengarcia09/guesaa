@@ -24,8 +24,8 @@ body {
 /* Estilo base de cada botón */
 .btn-categoria {
     background-color: #ffffff;
-    color: #333333;
-    border: 2px solid #e0e0e0;
+    color: #242424;
+    border: 2px solid #ff9822;
     padding: 10px 20px;
     border-radius: 25px;         /* Botones estilo píldora/redondeados */
     font-size: 0.95rem;
@@ -38,12 +38,75 @@ body {
 .btn-categoria:hover {
     background-color: #ffb703;   /* Amarillo cheddar */
     border-color: #ffb703;
-    color: #000000;
+    color: #232723;
 }
 
 /* Botón ACTIVO (el seleccionado actualmente) */
 .btn-categoria.active {
     background-color: #ff9822;   /* Rojo hamburguesería */
-    border-color: #000000;
+    border-color: #ff9822
     color: #2e4636;
+}
+/* Título principal "Tango Fast Food" */
+h1 {
+    text-align: center;         /* Alinea el texto al centro */
+    color: #ffffff;             /* Cambia la letra a negro para que se lea claro */
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-color: #000000;
+}
+
+/* Subtítulo "Nuestro Menú" */
+h2.titulo-seccion {
+    text-align: center;         /* Centra el subtítulo */
+    color: #000000;             /* Negro para buen contraste */
+    margin-bottom: 20px;
+}
+.categorias-container {
+    display: flex;
+    justify-content: center;    /* Centra los botones de categorías en la pantalla */
+    gap: 12px;                  /* Espacio entre cada botón */
+    margin-bottom: 40px;
+}
+/* Contenedor general donde se ubicarán todas las tarjetas */
+.product-grid {
+    display: flex;
+    justify-content: center;    /* Centra las tarjetas en pantalla */
+    flex-wrap: wrap;            /* Permite que si hay varias se acomoden en filas */
+    gap: 20px;                  /* Separación entre tarjetas */
+    padding: 0 20px;
+}
+
+/* Estilo individual de la tarjeta de la hamburguesa */
+.product-card {
+    background-color: #ffffff;  /* Fondo blanco dentro de la tarjeta */
+    color: #222222;             /* Texto oscuro legible */
+    border-radius: 12px;        /* Esquinas redondeadas */
+    padding: 20px;
+    width: 280px;               /* Ancho fijo para la tarjeta */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Sombra suave */
+    display: flex;
+    flex-direction: column;
+    align-items: center;        /* Centra el contenido dentro de la tarjeta */
+    text-align: center;
+}
+
+/* El precio dentro de la tarjeta */
+.product-card .precio {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #d90429;
+    margin: 10px 0;
+}
+
+/* Estilo para el botón "Agregar" */
+.product-card .btn-comprar {
+    background-color: #d90429;  /* Botón rojo */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;                 /* Ocupa el ancho de la tarjeta */
 }
