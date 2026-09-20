@@ -51,8 +51,8 @@ body {
 h1 {
     text-align: center;         /* Alinea el texto al centro */
     color: #ffffff;             /* Cambia la letra a negro para que se lea claro */
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin-top: 30px;
+    margin-bottom: 20px;
     border-color: #000000;
 }
 
