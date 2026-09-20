@@ -1,17 +1,14 @@
-// Arreglo para almacenar los productos agregados al pedido
+// Arreglo global para almacenar los productos del pedido
 let carrito = [];
 
-// Función para mostrar alerta personalizada de producto agregado
+// Mostrar alerta al agregar un producto
 function mostrarAlertaAgregado(nombreProducto) {
   alert(`¡${nombreProducto} agregado al pedido con éxito! 🛒`);
 }
 
-// 1. AGREGAR HAMBURGUESAS AL CARRITO
+// 1. AGREGAR HAMBURGUESAS
 function agregarAlCarrito(boton, nombreHamburguesa) {
-  // Obtener la tarjeta del producto
   const card = boton.closest('.product-card');
-  
-  // Obtener tamaño/precio y tipo de pan
   const selectVariante = card.querySelector('.select-variante');
   const selectPan = card.querySelector('.select-pan');
   
@@ -19,9 +16,8 @@ function agregarAlCarrito(boton, nombreHamburguesa) {
   const tamaño = selectVariante.options[selectVariante.selectedIndex].getAttribute('data-nombre');
   const pan = selectPan.value;
   
-  // Construir el objeto hamburguesa
   const producto = {
-    id: Date.now(), // ID único para identificar cada hamburguesa
+    id: Date.now(),
     tipo: 'burgers',
     nombre: nombreHamburguesa,
     detalle: `${tamaño} | ${pan}`,
@@ -34,14 +30,15 @@ function agregarAlCarrito(boton, nombreHamburguesa) {
   actualizarCarrito();
 }
 
-// 2. AGREGAR GUARNICIONES (Papas, etc.)
+// 2. AGREGAR GUARNICIONES / OTROS PRODUCTOS DIRECTOS
 function agregarDirecto(nombreProducto, precio) {
   const producto = {
     id: Date.now(),
     tipo: 'guarniciones',
     nombre: nombreProducto,
-    detalle: 'Guarnición individual',
-    precio: precio
+    detalle: 'Individual',
+    precio: parseInt(precio),
+    adicionales: []
   };
 
   carrito.push(producto);
@@ -49,12 +46,10 @@ function agregarDirecto(nombreProducto, precio) {
   actualizarCarrito();
 }
 
-// 3. AGREGAR ADICIONALES (Con validación y selección de hamburguesa)
+// 3. AGREGAR ADICIONALES (Con validaciones)
 function agregarAdicional(nombreAdicional, precioAdicional) {
-  // Filtrar todas las hamburguesas en el carrito
   const hamburguesasEnCarrito = carrito.filter(p => p.tipo === 'burgers');
 
-  // Regla 1: Si no hay hamburguesas, mostrar error
   if (hamburguesasEnCarrito.length === 0) {
     alert("Elija una hamburguesa a la cual agregar el adicional.");
     return;
@@ -62,11 +57,9 @@ function agregarAdicional(nombreAdicional, precioAdicional) {
 
   let hamburguesaDestino = null;
 
-  // Regla 2: Si hay solo una hamburguesa, se le asigna directamente
   if (hamburguesasEnCarrito.length === 1) {
     hamburguesaDestino = hamburguesasEnCarrito[0];
   } else {
-    // Regla 3: Si hay varias, preguntar a cuál agregarle el adicional
     let opciones = "Tienes varias hamburguesas en tu pedido. ¿A cuál le agregamos este adicional?\n\n";
     hamburguesasEnCarrito.forEach((h, index) => {
       opciones += `${index + 1}. ${h.nombre} (${h.detalle})\n`;
@@ -83,10 +76,9 @@ function agregarAdicional(nombreAdicional, precioAdicional) {
     }
   }
 
-  // Sumar adicional a la hamburguesa elegida
   hamburguesaDestino.adicionales.push({
     nombre: nombreAdicional,
-    precio: precioAdicional
+    precio: parseInt(precioAdicional)
   });
 
   mostrarAlertaAgregado(`${nombreAdicional} para ${hamburguesaDestino.nombre}`);
@@ -99,7 +91,7 @@ function eliminarDelCarrito(index) {
   actualizarCarrito();
 }
 
-// 5. ACTUALIZAR LA VISTA DEL CARRITO Y EL TOTAL
+// 5. ACTUALIZAR VISTA DEL CARRITO Y TOTAL
 function actualizarCarrito() {
   const listaCarrito = document.getElementById("lista-carrito");
   const totalPrecio = document.getElementById("total-precio");
@@ -143,7 +135,7 @@ function actualizarCarrito() {
   totalPrecio.textContent = totalGeneral.toLocaleString();
 }
 
-// 6. FILTRAR CATEGORÍAS DE MENÚ
+// 6. FILTRAR CATEGORÍAS
 function filtrarCategoria(categoria, boton) {
   const botones = document.querySelectorAll('.btn-categoria');
   botones.forEach(b => b.classList.remove('active'));
@@ -159,7 +151,7 @@ function filtrarCategoria(categoria, boton) {
   });
 }
 
-// Función para mostrar u ocultar la info de transferencia dinámicamente
+// 7. MOSTRAR / OCULTAR INFO DE TRANSFERENCIA
 function mostrarInfoTransferencia() {
   const metodoSelect = document.getElementById("metodo-pago");
   const infoDiv = document.getElementById("info-transferencia");
@@ -173,12 +165,13 @@ function mostrarInfoTransferencia() {
   }
 }
 
-// Reemplazar la función enviarWhatsApp con el detalle de Método de Pago
+// 8. ENVIAR PEDIDO A WHATSAPP
 function enviarWhatsApp() {
   const nombre = document.getElementById("nombre") ? document.getElementById("nombre").value.trim() : "";
   const direccion = document.getElementById("direccion") ? document.getElementById("direccion").value.trim() : "";
   const entrecalles = document.getElementById("entrecalles") ? document.getElementById("entrecalles").value.trim() : "";
-  const metodoPago = document.getElementById("metodo-pago") ? document.getElementById("metodo-pago").value : "Efectivo";
+  const metodoPagoSelect = document.getElementById("metodo-pago");
+  const metodoPago = metodoPagoSelect ? metodoPagoSelect.value : "Efectivo";
 
   if (!nombre) {
     alert("Por favor, ingresa tu nombre antes de enviar el pedido.");
@@ -225,8 +218,8 @@ function enviarWhatsApp() {
 
   if (metodoPago === "Transferencia") {
     mensaje += `\n💳 *DATOS DE TRANSFERENCIA:*\n`;
-    mensaje += `• *Alias:* tango.ff\n`;
-    mensaje += `• *Titular:* thiago sebastian altamirano\n`;
+    mensaje += `• *Alias:* tangofastfood.mp\n`;
+    mensaje += `• *Titular:* Tango Fast Food\n`;
     mensaje += `• *Billeteras/Bancos:* Mercado Pago, Naranja X, Cuenta DNI, BNA+, Ualá, etc.\n`;
     mensaje += `_(Cuando realices el pedido por WhatsApp, pagar al alias indicado y enviar el comprobante de pago a este mismo chat.)_\n`;
   }

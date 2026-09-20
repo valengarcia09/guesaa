@@ -251,39 +251,46 @@
 
     </div>
   </main>
-  <section class="carrito-section">
-    <h2>TU PEDIDO</h2>
+  <!-- SECCIÓN DEL CARRITO Y DATOS DE ENVÍO -->
+  <section class="carrito-section" style="max-width: 600px; margin: 30px auto; padding: 20px; border: 1px solid #ddd; border-radius: 12px; background: #fff;">
+    <h2>Tu Pedido</h2>
     <div id="lista-carrito">
       <p style="text-align: center; color: #777;">No has agregado ningún producto aún.</p>
     </div>
-    <div class="total-container">
-      Total: $<span id="total-precio">0</span>
-      <div class="datos-envio" style="margin: 20px 0; text-align: left;">
-    <!-- DATOS DEL CLIENTE, ENVÍO Y MÉTODO DE PAGO -->
-  <div class="datos-envio" style="margin: 20px 0; text-align: left;">
-    <label for="nombre" style="font-weight: bold; display: block; margin-bottom: 5px;">Tu Nombre:</label>
-    <input type="text" id="nombre" placeholder="Ej: Juan Pérez" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
 
-    <label for="direccion" style="font-weight: bold; display: block; margin-bottom: 5px;">Dirección de entrega:</label>
-    <input type="text" id="direccion" placeholder="Ej: Av. Siempreviva 742" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
+    <h3 style="margin-top: 20px; text-align: right;">Total: $<span id="total-precio">0</span></h3>
 
-    <label for="entrecalles" style="font-weight: bold; display: block; margin-bottom: 5px;">Entre calles / Referencias:</label>
-    <input type="text" id="entrecalles" placeholder="Ej: Entre Calle Falsa y Siempreviva" style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
+    <!-- DATOS DEL CLIENTE Y MÉTODO DE PAGO -->
+    <div class="datos-envio" style="margin: 20px 0; text-align: left;">
+      <label for="nombre" style="font-weight: bold; display: block; margin-bottom: 5px;">Tu Nombre:</label>
+      <input type="text" id="nombre" placeholder="Ej: Juan Pérez" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
 
-    <!-- MÉTODO DE PAGO -->
-    <label for="metodo-pago" style="font-weight: bold; display: block; margin-bottom: 5px;">Método de pago:</label>
-    <select id="metodo-pago" onchange="mostrarInfoTransferencia()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; background: #fff; margin-bottom: 10px;">
-      <option value="Efectivo">Efectivo</option>
-      <option value="Transferencia">Transferencia</option>
-    </select>
+      <label for="direccion" style="font-weight: bold; display: block; margin-bottom: 5px;">Dirección de entrega:</label>
+      <input type="text" id="direccion" placeholder="Ej: Av. Siempreviva 742" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
 
-    <!-- INFORMACIÓN DE TRANSFERENCIA (Se muestra solo si se elige Transferencia) -->
-    <div id="info-transferencia" style="display: none; background: #f8f9fa; border: 1px solid #007bff; border-radius: 8px; padding: 12px; margin-top: 10px; font-size: 14px;">
-      <p style="margin: 0 0 8px 0; font-weight: bold; color: #007bff;">💳 Datos para la Transferencia:</p>
-      <p style="margin: 4px 0;"><b>Alias:</b>tango.ff</p>
-      <p style="margin: 4px 0;"><b>Titular:</b>thiago sebastian altamirano</p>
-      <p style="margin: 4px 0;"><b>Bancos/Billeteras aceptadas:</b> Mercado Pago, Naranja X, Cuenta DNI, BNA+, Ualá, Brubank, etc.</p>
-      <p style="margin: 8px 0 0 0; font-style: italic; color: #555;">(Cuando realices el pedido por WhatsApp, pagar al alias arriba indicado a nombre del titular y enviar el comprobante de pago al mismo chat donde se realizó el pedido).</p>
+      <label for="entrecalles" style="font-weight: bold; display: block; margin-bottom: 5px;">Entre calles / Referencias:</label>
+      <input type="text" id="entrecalles" placeholder="Ej: Entre Calle Falsa y Siempreviva" style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
+
+      <!-- SELECCIÓN MÉTODO DE PAGO -->
+      <label for="metodo-pago" style="font-weight: bold; display: block; margin-bottom: 5px;">Método de pago:</label>
+      <select id="metodo-pago" onchange="mostrarInfoTransferencia()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; background: #fff; margin-bottom: 10px;">
+        <option value="Efectivo">Efectivo</option>
+        <option value="Transferencia">Transferencia</option>
+      </select>
+
+      <!-- CUADRO DE INFORMACIÓN BANCARIA -->
+      <div id="info-transferencia" style="display: none; background: #f8f9fa; border: 1px solid #007bff; border-radius: 8px; padding: 12px; margin-top: 10px; font-size: 14px;">
+        <p style="margin: 0 0 8px 0; font-weight: bold; color: #007bff;">💳 Datos para la Transferencia:</p>
+        <p style="margin: 4px 0;"><b>Alias:</b> tango.ff </p>
+        <p style="margin: 4px 0;"><b>Titular:</b> thiago sebastian altamirano </p>
+        <p style="margin: 4px 0;"><b>Bancos/Billeteras aceptadas:</b> Mercado Pago, Naranja X, Cuenta DNI, BNA+, Ualá, Brubank, etc.</p>
+        <p style="margin: 8px 0 0 0; font-style: italic; color: #555;">(Cuando realices el pedido por WhatsApp, pagar al alias arriba indicado a nombre del titular y enviar el comprobante de pago al mismo chat donde se realizó el pedido).</p>
+      </div>
     </div>
-  </div>
+
+    <!-- BOTÓN PARA ENVIAR A WHATSAPP -->
+    <button onclick="enviarWhatsApp()" style="width: 100%; padding: 14px; background: #25d366; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer;">
+      Enviar pedido por WhatsApp 📲
+    </button>
+  </section>
 
