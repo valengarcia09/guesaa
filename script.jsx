@@ -102,7 +102,7 @@ function enviarWhatsApp() {
   }
 
 
-  const numeroTelefono = "+54 9 11 2564-5240"; 
+  const numeroTelefono = "+5491125645240"; 
 
   let mensaje = "¡Hola Tango Fast Food! Quiero hacer este pedido:\n\n";
   let total = 0;
@@ -114,6 +114,6 @@ function enviarWhatsApp() {
 
   mensaje += `*TOTAL: $${total}*\n\n¡Quedo a la espera del envío/confirmación!`;
 
-  const url = `https://api.whatsapp.com/send?phone=${numeroTelefono}&text=${encodeURIComponent(mensaje)}`;
+  const url = `https://api.whatsapp.com/send?phone=${+5491125645240}&text=${encodeURIComponent(mensaje)}`;
   window.open(url, '_blank');
 }

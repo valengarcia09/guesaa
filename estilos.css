@@ -271,3 +271,48 @@ body {
 .btn-whatsapp:hover {
   background-color: #1eb854;
 }
+.footer-redes {
+  text-align: center;
+  padding: 30px 20px;
+  background-color: var(--verde-oscuro);
+  color: white;
+  margin-top: 40px;
+}
+
+.footer-redes p {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.redes-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-red {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border-radius: 30px;
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-red:hover {
+  transform: translateY(-3px);
+  opacity: 0.9;
+}
+
+.btn-red.instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.btn-red.whatsapp {
+  background-color: #25d366;
+}
