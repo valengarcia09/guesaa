@@ -1,46 +1,316 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <link rel="stylesheet" href="estilos.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik+Spray+Paint&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tango Fast Food - Menú</title>
+  
+  <!-- Fuentes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik+Spray+Paint&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Hoja de Estilos -->
+  <link rel="stylesheet" href="estilos.css">
 </head>
-
 <body>
-    <h1 class="rubik-spray-paint-regular">diddy Fast Food</h1>
 
-        <section id="menu" class="contenedor-menu">
-    <h2 class="titulo-seccion">Nuestro Menú</h2>
+  <!-- Encabezado / Logo -->
+  <header class="hero-header">
+    <div class="logo-container">
+      <h1 class="logo-text">TANGO</h1>
+      <p class="logo-sub">FAST FOOD</p>
+    </div>
+  </header>
 
-    <!-- BOTONES DE CATEGORÍAS DE HAMBURGUESAS -->
+  <!-- Banner Informativo de Pan y Papas -->
+  <div class="info-banner">
+    <p>🍔 <strong>PAN A ELECCIÓN (SIN CARGO):</strong> Papa, Brioche o Parmesano</p>
+    <p>🍟 <strong>¡TODAS LAS HAMBURGUESAS VIENEN CON SU PORCIÓN DE PAPAS INDIVIDUALES!</strong></p>
+  </div>
+
+  <main class="main-container">
+    <h2 class="titulo-seccion">NUESTRO MENÚ</h2>
+
+    <!-- Botones de Categorías -->
     <div class="categorias-container">
-        <button class="btn-categoria active" onclick="filtrarCategoria('todas', this)">Todas</button>
-        <button class="btn-categoria" onclick="filtrarCategoria('clasicas', this)">Clásicas</button>
-        <button class="btn-categoria" onclick="filtrarCategoria('dobles', this)">Dobles Cheddar</button>
-        <button class="btn-categoria" onclick="filtrarCategoria('especiales', this)">Especiales</button>
-        <button class="btn-categoria" onclick="filtrarCategoria('veggie', this)">Veggie / Veganas</button>
+      <button class="btn-categoria active" onclick="filtrarCategoria('todas', this)">Todas</button>
+      <button class="btn-categoria" onclick="filtrarCategoria('burgers', this)">Smash Burgers</button>
+      <button class="btn-categoria" onclick="filtrarCategoria('guarniciones', this)">Guarniciones</button>
+      <button class="btn-categoria" onclick="filtrarCategoria('adicionales', this)">Adicionales</button>
     </div>
 
-    <!-- AQUÍ VAN TUS PRODUCTOS -->
-    <div class="product-grid">
-        <!-- Ejemplo de hamburguesa -->
-        <article class="product-card">
-            <h3>Doble Bacon Cheese</h3>
-            <p>Doble medallón, cheddar y panceta crocante.</p>
-            <span class="precio">$6.767</span>
-            <button class="btn-comprar">Agregar</button>
-        </article>
-    </div>
+    <!-- Menú Grid -->
+    <div class="product-grid" id="product-grid">
 
-</section>
-<script src="script.jsx"></script>
+      <!-- SMASH BURGERS -->
+      <article class="product-card" data-category="burgers">
+        <h3>CHEESEBURGER</h3>
+        <p class="descripcion">Pan, Cheddar, Medallón de carne.</p>
+        <div class="variantes">
+          <label>Tamaño / Tamaño de carne:</label>
+          <select class="select-variante">
+            <option value="9000" data-nombre="Simple">Simple - $9.000</option>
+            <option value="11000" data-nombre="Doble" selected>Doble - $11.000</option>
+            <option value="13000" data-nombre="Triple">Triple - $13.000</option>
+          </select>
+          <label>Pan a elección:</label>
+          <select class="select-pan">
+            <option value="Pan de Papa">Pan de Papa</option>
+            <option value="Pan Brioche">Pan Brioche</option>
+            <option value="Pan Parmesano">Pan Parmesano</option>
+          </select>
+        </div>
+        <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Cheeseburger')">Agregar al Pedido</button>
+      </article>
+
+      <article class="product-card" data-category="burgers">
+        <h3>BACON CHEESE</h3>
+        <p class="descripcion">Pan, Cheddar, Bacon, Medallón de carne.</p>
+        <div class="variantes">
+          <label>Tamaño / Tamaño de carne:</label>
+          <select class="select-variante">
+            <option value="10000" data-nombre="Simple">Simple - $10.000</option>
+            <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
+            <option value="14000" data-nombre="Triple">Triple - $14.000</option>
+          </select>
+          <label>Pan a elección:</label>
+          <select class="select-pan">
+            <option value="Pan de Papa">Pan de Papa</option>
+            <option value="Pan Brioche">Pan Brioche</option>
+            <option value="Pan Parmesano">Pan Parmesano</option>
+          </select>
+        </div>
+        <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Bacon Cheese')">Agregar al Pedido</button>
+      </article>
+
+      <article class="product-card" data-category="burgers">
+        <h3>CLÁSICA</h3>
+        <p class="descripcion">Pan, Cheddar, Lechuga, Tomate, Medallón de carne.</p>
+        <div class="variantes">
+          <label>Tamaño / Tamaño de carne:</label>
+          <select class="select-variante">
+            <option value="10000" data-nombre="Simple">Simple - $10.000</option>
+            <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
+            <option value="14000" data-nombre="Triple">Triple - $14.000</option>
+          </select>
+          <label>Pan a elección:</label>
+          <select class="select-pan">
+            <option value="Pan de Papa">Pan de Papa</option>
+            <option value="Pan Brioche">Pan Brioche</option>
+            <option value="Pan Parmesano">Pan Parmesano</option>
+          </select>
+        </div>
+        <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Clásica')">Agregar al Pedido</button>
+      </article>
+
+      <article class="product-card" data-category="burgers">
+        <h3>CRISPY TANGO</h3>
+        <p class="descripcion">Pan, Cheddar, Cebolla Crispy, Mayonesa Tango, Barbacoa, Medallón de carne.</p>
+        <div class="variantes">
+          <label>Tamaño / Tamaño de carne:</label>
+          <select class="select-variante">
+            <option value="10000" data-nombre="Simple">Simple - $10.000</option>
+            <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
+            <option value="14000" data-nombre="Triple">Triple - $14.000</option>
+          </select>
+          <label>Pan a elección:</label>
+          <select class="select-pan">
+            <option value="Pan de Papa">Pan de Papa</option>
+            <option value="Pan Brioche">Pan Brioche</option>
+            <option value="Pan Parmesano">Pan Parmesano</option>
+          </select>
+        </div>
+        <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Crispy Tango')">Agregar al Pedido</button>
+      </article>
+
+      <article class="product-card" data-category="burgers">
+        <h3>OKLAHOMA</h3>
+        <p class="descripcion">Pan, Cheddar, Cebolla caramelizada, Medallón de carne.</p>
+        <div class="variantes">
+          <label>Tamaño / Tamaño de carne:</label>
+          <select class="select-variante">
+            <option value="10000" data-nombre="Simple">Simple - $10.000</option>
+            <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
+            <option value="14000" data-nombre="Triple">Triple - $14.000</option>
+          </select>
+          <label>Pan a elección:</label>
+          <select class="select-pan">
+            <option value="Pan de Papa">Pan de Papa</option>
+            <option value="Pan Brioche">Pan Brioche</option>
+            <option value="Pan Parmesano">Pan Parmesano</option>
+          </select>
+        </div>
+        <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Oklahoma')">Agregar al Pedido</button>
+      </article>
+
+      <article class="product-card" data-category="burgers">
+        <h3>AMERICANA</h3>
+        <p class="descripcion">Pan, Cheddar, Bacon, Barbacoa, Huevo, Medallón de carne.</p>
+        <div class="variantes">
+          <label>Tamaño / Tamaño de carne:</label>
+          <select class="select-variante">
+            <option value="10000" data-nombre="Simple">Simple - $10.000</option>
+            <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
+            <option value="14000" data-nombre="Triple">Triple - $14.000</option>
+          </select>
+          <label>Pan a elección:</label>
+          <select class="select-pan">
+            <option value="Pan de Papa">Pan de Papa</option>
+            <option value="Pan Brioche">Pan Brioche</option>
+            <option value="Pan Parmesano">Pan Parmesano</option>
+          </select>
+        </div>
+        <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Americana')">Agregar al Pedido</button>
+      </article>
+
+      <article class="product-card" data-category="burgers">
+        <h3>CUARTO DE LIBRA</h3>
+        <p class="descripcion">Pan, Cheddar, Salsa Cuarto, Medallón de carne.</p>
+        <div class="variantes">
+          <label>Tamaño / Tamaño de carne:</label>
+          <select class="select-variante">
+            <option value="10000" data-nombre="Simple">Simple - $10.000</option>
+            <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
+            <option value="14000" data-nombre="Triple">Triple - $14.000</option>
+          </select>
+          <label>Pan a elección:</label>
+          <select class="select-pan">
+            <option value="Pan de Papa">Pan de Papa</option>
+            <option value="Pan Brioche">Pan Brioche</option>
+            <option value="Pan Parmesano">Pan Parmesano</option>
+          </select>
+        </div>
+        <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Cuarto de Libra')">Agregar al Pedido</button>
+      </article>
+
+      <!-- GUARNICIONES -->
+      <article class="product-card" data-category="guarniciones">
+        <h3>PORCIÓN DE PAPAS CLÁSICAS</h3>
+        <p class="descripcion">Porción de papas fritas crocantes.</p>
+        <span class="precio">$8.000</span>
+        <button class="btn-comprar" onclick="agregarDirecto('Porción Papas Clásicas', 8000)">Agregar al Pedido</button>
+      </article>
+
+      <article class="product-card" data-category="guarniciones">
+        <h3>PORCIÓN DE PAPAS TANGO</h3>
+        <p class="descripcion">Papas fritas con cheddar, bacon y verdeo.</p>
+        <span class="precio">$10.000</span>
+        <button class="btn-comprar" onclick="agregarDirecto('Porción Papas Tango', 10000)">Agregar al Pedido</button>
+      </article>
+
+      <article class="product-card" data-category="guarniciones">
+        <h3>PORCIÓN DE PAPAS C/ CHEDDAR</h3>
+        <p class="descripcion">Papas fritas bañadas en salsa cheddar.</p>
+        <span class="precio">$9.000</span>
+        <button class="btn-comprar" onclick="agregarDirecto('Porción Papas c/ Cheddar', 9000)">Agregar al Pedido</button>
+      </article>
+
+      <!-- ADICIONALES -->
+      <article class="product-card" data-category="adicionales">
+        <h3>BLEND DE CARNE</h3>
+        <p class="descripcion">Medallón adicional de carne.</p>
+        <span class="precio">$2.500</span>
+        <button class="btn-comprar" onclick="agregarDirecto('Adicional Blend de Carne', 2500)">Agregar al Pedido</button>
+      </article>
+
+      <article class="product-card" data-category="adicionales">
+        <h3>EXTRA CHEDDAR</h3>
+        <p class="descripcion">Salsa de queso cheddar adicional.</p>
+        <span class="precio">$1.500</span>
+        <button class="btn-comprar" onclick="agregarDirecto('Extra Cheddar', 1500)">Agregar al Pedido</button>
+      </article>
+
+      <article class="product-card" data-category="adicionales">
+        <h3>EXTRA BACON</h3>
+        <p class="descripcion">Panceta crocante adicional.</p>
+        <span class="precio">$2.000</span>
+        <button class="btn-comprar" onclick="agregarDirecto('Extra Bacon', 2000)">Agregar al Pedido</button>
+      </article>
+
+      <article class="product-card" data-category="adicionales">
+        <h3>HUEVO</h3>
+        <p class="descripcion">Huevo adicional.</p>
+        <span class="precio">$500</span>
+        <button class="btn-comprar" onclick="agregarDirecto('Adicional Huevo', 500)">Agregar al Pedido</button>
+      </article>
+
+      <article class="product-card" data-category="adicionales">
+        <h3>CEBOLLA</h3>
+        <p class="descripcion">Caramelizada o Crispy.</p>
+        <span class="precio">$1.000</span>
+        <button class="btn-comprar" onclick="agregarDirecto('Adicional Cebolla', 1000)">Agregar al Pedido</button>
+      </article>
+
+      <article class="product-card" data-category="adicionales">
+        <h3>CHEDDAR, BACON Y VERDEO EN PAPAS</h3>
+        <p class="descripcion">Top para tus papas fritas.</p>
+        <span class="precio">$2.500</span>
+        <button class="btn-comprar" onclick="agregarDirecto('Topping Cheddar, Bacon y Verdeo', 2500)">Agregar al Pedido</button>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- SECCIÓN MI PEDIDO / CARRITO -->
+  <section class="carrito-section">
+    <h2>TU PEDIDO</h2>
+    <div id="lista-carrito">
+      <p style="text-align: center; color: #777;">No has agregado ningún producto aún.</p>
+    </div>
+    <div class="total-container">
+      Total: $<span id="total-precio">0</span>
+    </div>
+    <button class="btn-whatsapp" onclick="enviarWhatsApp()">
+      📲 Enviar Pedido por WhatsApp
+    </button>
+  </section>
+
+  <!-- SECCIÓN MI PEDIDO / CARRITO -->
+  <section class="carrito-section">
+    <h2>TU PEDIDO</h2>
+    <div id="lista-carrito">
+      <p style="text-align: center; color: #777;">No has agregado ningún producto aún.</p>
+    </div>
+    <div class="total-container">
+      Total: $<span id="total-precio">0</span>
+    </div>
+    <button class="btn-whatsapp" onclick="enviarWhatsApp()">
+      📲 Enviar Pedido por WhatsApp
+    </button>
+  </section>
+
+  <footer class="footer-redes">
+    <p>¡Seguinos en nuestras redes!</p>
+    <div class="redes-container">
+      
+      
+      <a href="https://www.instagram.com/tangofastfood_" target="_blank" rel="noopener noreferrer" class="btn-red instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+        <span>Instagram</span>
+      </a>
+
+      <!-- CAMBIA '5491112345678' POR TU NÚMERO DE TELÉFONO REAL -->
+      <a href="https://wa.me/+5491125645240?text=Hola%20Tango%20Fast%20Food,%20quiero%20hacer%20una%20consulta!" target="_blank" rel="noopener noreferrer" class="btn-red whatsapp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.205 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.572-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+        </svg>
+        <span>WhatsApp</span>
+      </a>
+
+    </div>
+  </footer>
+  
+
+  <!-- Vincular el script JS -->
+  <script src="script.jsx"></script>
+</body>
+</html>
+
+  <!-- Vincular el script JS -->
+  <script src="script.js"></script>
 </body>
 </html>
 
