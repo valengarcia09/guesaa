@@ -44,15 +44,15 @@ body {
 /* Botón ACTIVO (el seleccionado actualmente) */
 .btn-categoria.active {
     background-color: #ff9822;   /* Rojo hamburguesería */
-    border-color: #ff9822
+    border-color: #ff9822;
     color: #2e4636;
 }
 /* Título principal "Tango Fast Food" */
 h1 {
     text-align: center;         /* Alinea el texto al centro */
     color: #ffffff;             /* Cambia la letra a negro para que se lea claro */
-    margin-top: 30px;
-    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
     border-color: #000000;
 }
 
