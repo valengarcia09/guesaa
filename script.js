@@ -96,8 +96,15 @@ function eliminarDelCarrito(index) {
 }
 
 function enviarWhatsApp() {
+  const nombre = document.getElementById("nombre").value.trim();
   const direccion = document.getElementById("direccion").value.trim();
   const entrecalles = document.getElementById("entrecalles").value.trim();
+
+  // Validaciones de campos obligatorios
+  if (!nombre) {
+    alert("Por favor, ingresa tu nombre antes de enviar el pedido.");
+    return;
+  }
 
   if (!direccion) {
     alert("Por favor, ingresa tu dirección antes de enviar el pedido.");
@@ -110,7 +117,7 @@ function enviarWhatsApp() {
   }
 
   const numeroTelefono = "+5491125645240";
-  let mensaje = "¡Hola Tango Fast Food! Quiero hacer este pedido:\n\n";
+  let mensaje = `¡Hola Tango Fast Food! Soy *${nombre}* y quiero hacer este pedido:\n\n`;
   let total = 0;
 
   carrito.forEach((item, i) => {
@@ -119,7 +126,8 @@ function enviarWhatsApp() {
   });
 
   mensaje += `*TOTAL:* $${total}\n\n`;
-  mensaje += `📍 *DATOS DE ENVÍO:*\n`;
+  mensaje += `👤 *DATOS DEL CLIENTE:*\n`;
+  mensaje += `• *Nombre:* ${nombre}\n`;
   mensaje += `• *Dirección:* ${direccion}\n`;
   if (entrecalles) {
     mensaje += `• *Entre calles:* ${entrecalles}\n`;

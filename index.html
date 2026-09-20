@@ -251,8 +251,7 @@
 
     </div>
   </main>
-
-  <!-- SECCIÓN CARRITO DE COMPRAS -->
+-seccion pedido-
   <section class="carrito-section">
     <h2>TU PEDIDO</h2>
     <div id="lista-carrito">
@@ -266,7 +265,17 @@
 
     <label for="entrecalles" style="font-weight: bold; display: block; margin-bottom: 5px;">Entre calles / Referencias:</label>
     <input type="text" id="entrecalles" placeholder="Ej: Entre Calle Falsa y Siempreviva" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
-    </div>
+    <!-- DATOS DEL CLIENTE Y ENVÍO -->
+  <div class="datos-envio" style="margin: 20px 0; text-align: left;">
+    <label for="nombre" style="font-weight: bold; display: block; margin-bottom: 5px;">Tu Nombre:</label>
+    <input type="text" id="nombre" placeholder="Ej: Juan Pérez" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
+
+    <label for="direccion" style="font-weight: bold; display: block; margin-bottom: 5px;">Dirección de entrega:</label>
+    <input type="text" id="direccion" placeholder="Ej: Av. Siempreviva 742" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
+
+    <label for="entrecalles" style="font-weight: bold; display: block; margin-bottom: 5px;">Entre calles / Referencias:</label>
+    <input type="text" id="entrecalles" placeholder="Ej: Entre Calle Falsa y Siempreviva" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
+  </div>
     <button class="btn-whatsapp" onclick="enviarWhatsApp()">
       📲 Enviar Pedido por WhatsApp
     </button>
