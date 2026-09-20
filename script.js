@@ -95,25 +95,36 @@ function eliminarDelCarrito(index) {
   actualizarCarritoUI();
 }
 
-// Enviar pedido armado por WhatsApp
 function enviarWhatsApp() {
-  if (carrito.length === 0) {
-    alert('Tu pedido está vacío. Agrega algún producto primero.');
+  const direccion = document.getElementById("direccion").value.trim();
+  const entrecalles = document.getElementById("entrecalles").value.trim();
+
+  if (!direccion) {
+    alert("Por favor, ingresa tu dirección antes de enviar el pedido.");
     return;
   }
 
+  if (carrito.length === 0) {
+    alert("Tu pedido está vacío. Agrega algún producto primero.");
+    return;
+  }
 
-  const numeroTelefono = "+5491125645240"; 
-
+  const numeroTelefono = "+5491125645240";
   let mensaje = "¡Hola Tango Fast Food! Quiero hacer este pedido:\n\n";
   let total = 0;
 
   carrito.forEach((item, i) => {
-    mensaje += `${i + 1}. *${item.nombre}*\n   Detalle: ${item.detalle}\n   Precio: $${item.precio}\n\n`;
+    mensaje += `${i + 1}. *${item.nombre}*\n  Detalle: ${item.detalle}\n  Precio: $${item.precio}\n\n`;
     total += item.precio;
   });
 
-  mensaje += `*TOTAL: $${total}*\n\n¡Quedo a la espera del envío/confirmación!`;
+  mensaje += `*TOTAL:* $${total}\n\n`;
+  mensaje += `📍 *DATOS DE ENVÍO:*\n`;
+  mensaje += `• *Dirección:* ${direccion}\n`;
+  if (entrecalles) {
+    mensaje += `• *Entre calles:* ${entrecalles}\n`;
+  }
+  mensaje += `\n¡Quedo a la espera del envío/confirmación!`;
 
   const url = `https://api.whatsapp.com/send?phone=${+5491125645240}&text=${encodeURIComponent(mensaje)}`;
   window.open(url, '_blank');
