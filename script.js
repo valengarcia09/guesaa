@@ -1,14 +1,17 @@
-// Arreglo global para almacenar los productos del pedido
+// Arreglo para almacenar los productos agregados al pedido
 let carrito = [];
 
-// Mostrar alerta al agregar un producto
+// Función para mostrar alerta personalizada de producto agregado
 function mostrarAlertaAgregado(nombreProducto) {
   alert(`¡${nombreProducto} agregado al pedido con éxito! 🛒`);
 }
 
-// 1. AGREGAR HAMBURGUESAS
+// 1. AGREGAR HAMBURGUESAS AL CARRITO
 function agregarAlCarrito(boton, nombreHamburguesa) {
+  // Obtener la tarjeta del producto
   const card = boton.closest('.product-card');
+  
+  // Obtener tamaño/precio y tipo de pan
   const selectVariante = card.querySelector('.select-variante');
   const selectPan = card.querySelector('.select-pan');
   
@@ -16,8 +19,9 @@ function agregarAlCarrito(boton, nombreHamburguesa) {
   const tamaño = selectVariante.options[selectVariante.selectedIndex].getAttribute('data-nombre');
   const pan = selectPan.value;
   
+  // Construir el objeto hamburguesa
   const producto = {
-    id: Date.now(),
+    id: Date.now(), // ID único para identificar cada hamburguesa
     tipo: 'burgers',
     nombre: nombreHamburguesa,
     detalle: `${tamaño} | ${pan}`,
@@ -30,15 +34,14 @@ function agregarAlCarrito(boton, nombreHamburguesa) {
   actualizarCarrito();
 }
 
-// 2. AGREGAR GUARNICIONES / OTROS PRODUCTOS DIRECTOS
+// 2. AGREGAR GUARNICIONES (Papas, etc.)
 function agregarDirecto(nombreProducto, precio) {
   const producto = {
     id: Date.now(),
     tipo: 'guarniciones',
     nombre: nombreProducto,
-    detalle: 'Individual',
-    precio: parseInt(precio),
-    adicionales: []
+    detalle: 'Guarnición individual',
+    precio: precio
   };
 
   carrito.push(producto);
@@ -46,10 +49,12 @@ function agregarDirecto(nombreProducto, precio) {
   actualizarCarrito();
 }
 
-// 3. AGREGAR ADICIONALES (Con validaciones)
+// 3. AGREGAR ADICIONALES (Con validación y selección de hamburguesa)
 function agregarAdicional(nombreAdicional, precioAdicional) {
+  // Filtrar todas las hamburguesas en el carrito
   const hamburguesasEnCarrito = carrito.filter(p => p.tipo === 'burgers');
 
+  // Regla 1: Si no hay hamburguesas, mostrar error
   if (hamburguesasEnCarrito.length === 0) {
     alert("Elija una hamburguesa a la cual agregar el adicional.");
     return;
@@ -57,9 +62,11 @@ function agregarAdicional(nombreAdicional, precioAdicional) {
 
   let hamburguesaDestino = null;
 
+  // Regla 2: Si hay solo una hamburguesa, se le asigna directamente
   if (hamburguesasEnCarrito.length === 1) {
     hamburguesaDestino = hamburguesasEnCarrito[0];
   } else {
+    // Regla 3: Si hay varias, preguntar a cuál agregarle el adicional
     let opciones = "Tienes varias hamburguesas en tu pedido. ¿A cuál le agregamos este adicional?\n\n";
     hamburguesasEnCarrito.forEach((h, index) => {
       opciones += `${index + 1}. ${h.nombre} (${h.detalle})\n`;
@@ -76,9 +83,10 @@ function agregarAdicional(nombreAdicional, precioAdicional) {
     }
   }
 
+  // Sumar adicional a la hamburguesa elegida
   hamburguesaDestino.adicionales.push({
     nombre: nombreAdicional,
-    precio: parseInt(precioAdicional)
+    precio: precioAdicional
   });
 
   mostrarAlertaAgregado(`${nombreAdicional} para ${hamburguesaDestino.nombre}`);
@@ -91,7 +99,7 @@ function eliminarDelCarrito(index) {
   actualizarCarrito();
 }
 
-// 5. ACTUALIZAR VISTA DEL CARRITO Y TOTAL
+// 5. ACTUALIZAR LA VISTA DEL CARRITO Y EL TOTAL
 function actualizarCarrito() {
   const listaCarrito = document.getElementById("lista-carrito");
   const totalPrecio = document.getElementById("total-precio");
@@ -135,12 +143,11 @@ function actualizarCarrito() {
   totalPrecio.textContent = totalGeneral.toLocaleString();
 }
 
-// 6. FILTRAR CATEGORÍAS
+// 6. FILTRAR CATEGORÍAS DE MENÚ
 function filtrarCategoria(categoria, boton) {
   const botones = document.querySelectorAll('.btn-categoria');
   botones.forEach(b => b.classList.remove('active'));
   boton.classList.add('active');
-
   const productos = document.querySelectorAll('.product-card');
   productos.forEach(p => {
     if (categoria === 'todas' || p.getAttribute('data-category') === categoria) {
@@ -151,27 +158,11 @@ function filtrarCategoria(categoria, boton) {
   });
 }
 
-// 7. MOSTRAR / OCULTAR INFO DE TRANSFERENCIA
-function mostrarInfoTransferencia() {
-  const metodoSelect = document.getElementById("metodo-pago");
-  const infoDiv = document.getElementById("info-transferencia");
-  
-  if (metodoSelect && infoDiv) {
-    if (metodoSelect.value === "Transferencia") {
-      infoDiv.style.display = "block";
-    } else {
-      infoDiv.style.display = "none";
-    }
-  }
-}
-
-// 8. ENVIAR PEDIDO A WHATSAPP
+// 7. ENVIAR PEDIDO POR WHATSAPP (INCLUYE NOMBRE Y DIRECCIÓN)
 function enviarWhatsApp() {
   const nombre = document.getElementById("nombre") ? document.getElementById("nombre").value.trim() : "";
   const direccion = document.getElementById("direccion") ? document.getElementById("direccion").value.trim() : "";
   const entrecalles = document.getElementById("entrecalles") ? document.getElementById("entrecalles").value.trim() : "";
-  const metodoPagoSelect = document.getElementById("metodo-pago");
-  const metodoPago = metodoPagoSelect ? metodoPagoSelect.value : "Efectivo";
 
   if (!nombre) {
     alert("Por favor, ingresa tu nombre antes de enviar el pedido.");
@@ -208,22 +199,12 @@ function enviarWhatsApp() {
   });
 
   mensaje += `*TOTAL:* $${totalGeneral}\n\n`;
-  mensaje += `👤 *DATOS DEL CLIENTE Y ENVÍO:*\n`;
+  mensaje += `👤 *DATOS DEL CLIENTE:*\n`;
   mensaje += `• *Nombre:* ${nombre}\n`;
   mensaje += `• *Dirección:* ${direccion}\n`;
   if (entrecalles) {
     mensaje += `• *Entre calles:* ${entrecalles}\n`;
   }
-  mensaje += `• *Método de pago:* ${metodoPago}\n`;
-
-  if (metodoPago === "Transferencia") {
-    mensaje += `\n💳 *DATOS DE TRANSFERENCIA:*\n`;
-    mensaje += `• *Alias:* tangofastfood.mp\n`;
-    mensaje += `• *Titular:* Tango Fast Food\n`;
-    mensaje += `• *Billeteras/Bancos:* Mercado Pago, Naranja X, Cuenta DNI, BNA+, Ualá, etc.\n`;
-    mensaje += `_(Cuando realices el pedido por WhatsApp, pagar al alias indicado y enviar el comprobante de pago a este mismo chat.)_\n`;
-  }
-
   mensaje += `\n¡Quedo a la espera del envío/confirmación!`;
 
   const url = `https://api.whatsapp.com/send?phone=${+5491125645240}&text=${encodeURIComponent(mensaje)}`;
