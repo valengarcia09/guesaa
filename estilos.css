@@ -1,112 +1,273 @@
-.rubik-spray-paint-regular {
-  font-family: "Rubik Spray Paint", system-ui;
-  font-weight: 400;
-  font-style: normal;
-}
-body {
-    background-color: #f4f4f4;
-    font-family: Arial, sans-serif;
-}
-body {
-    background-color: #ffba3a; /* Un tono oscuro/negro muy usado en hamburgueserías */
-    color: #ffffff;            /* Texto en blanco para que resalte */
-    margin: 0;
-    padding: 0;
-}
-.categorias-container {
-    display: flex;
-    justify-content: center;
-    gap: 12px;                  /* Espacio entre botones */
-    flex-wrap: wrap;             /* Se acomodan si la pantalla es chica (celulares) */
-    margin: 20px 0 30px 0;
+:root {
+  --verde-tango: #3c6148;
+  --verde-oscuro: #2b4734;
+  --naranja-tango: #e05328;
+  --blanco: #ffffff;
+  --gris-claro: #f4f6f4;
+  --texto-oscuro: #1e1e1e;
 }
 
-/* Estilo base de cada botón */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: var(--verde-tango);
+  color: var(--texto-oscuro);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0);
+  background-size: 20px 20px;
+}
+
+/* Encabezado con patrón Ajedrezado */
+.hero-header {
+  background-color: var(--verde-oscuro);
+  padding: 40px 20px;
+  text-align: center;
+  position: relative;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  /* Patrón damero / ajedrez */
+  border-image: repeating-linear-gradient(45deg, #fff, #fff 10px, var(--verde-oscuro) 10px, var(--verde-oscuro) 20px) 20;
+}
+
+.logo-text {
+  font-family: 'Rubik Spray Paint', cursive, sans-serif;
+  font-size: 4rem;
+  color: var(--blanco);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 3px 3px 0px rgba(0,0,0,0.4);
+  transform: scaleY(1.1);
+}
+
+.logo-sub {
+  color: var(--blanco);
+  font-weight: 800;
+  letter-spacing: 5px;
+  font-size: 1.2rem;
+  margin-top: -5px;
+}
+
+/* Banner Informativo */
+.info-banner {
+  background-color: var(--naranja-tango);
+  color: var(--blanco);
+  text-align: center;
+  padding: 12px 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.info-banner p {
+  margin: 3px 0;
+}
+
+.main-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.titulo-seccion {
+  text-align: center;
+  color: var(--blanco);
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Categorías */
+.categorias-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 35px;
+  flex-wrap: wrap;
+}
+
 .btn-categoria {
-    background-color: #ffffff;
-    color: #242424;
-    border: 2px solid #ff9822;
-    padding: 10px 20px;
-    border-radius: 25px;         /* Botones estilo píldora/redondeados */
-    font-size: 0.95rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease;   /* Animación al pasar el mouse */
+  background-color: rgba(255, 255, 255, 0.15);
+  color: var(--blanco);
+  border: 2px solid var(--blanco);
+  padding: 10px 22px;
+  border-radius: 25px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-/* EFECTOS: Cuando el mouse pasa por arriba */
-.btn-categoria:hover {
-    background-color: #ffb703;   /* Amarillo cheddar */
-    border-color: #ffb703;
-    color: #232723;
+.btn-categoria:hover, .btn-categoria.active {
+  background-color: var(--blanco);
+  color: var(--verde-tango);
 }
 
-/* Botón ACTIVO (el seleccionado actualmente) */
-.btn-categoria.active {
-    background-color: #ff9822;   /* Rojo hamburguesería */
-    border-color: #ff9822
-    color: #2e4636;
-}
-/* Título principal "Tango Fast Food" */
-h1 {
-    text-align: center;         /* Alinea el texto al centro */
-    color: #ffffff;             /* Cambia la letra a negro para que se lea claro */
-    margin-top: 20px;
-    margin-bottom: 10px;
-    border-color: #000000;
-}
-
-/* Subtítulo "Nuestro Menú" */
-h2.titulo-seccion {
-    text-align: center;         /* Centra el subtítulo */
-    color: #000000;             /* Negro para buen contraste */
-    margin-bottom: 20px;
-}
-.categorias-container {
-    display: flex;
-    justify-content: center;    /* Centra los botones de categorías en la pantalla */
-    gap: 12px;                  /* Espacio entre cada botón */
-    margin-bottom: 40px;
-}
-/* Contenedor general donde se ubicarán todas las tarjetas */
+/* Grid de Productos */
 .product-grid {
-    display: flex;
-    justify-content: center;    /* Centra las tarjetas en pantalla */
-    flex-wrap: wrap;            /* Permite que si hay varias se acomoden en filas */
-    gap: 20px;                  /* Separación entre tarjetas */
-    padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1rem));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
 }
 
-/* Estilo individual de la tarjeta de la hamburguesa */
 .product-card {
-    background-color: #ffffff;  /* Fondo blanco dentro de la tarjeta */
-    color: #222222;             /* Texto oscuro legible */
-    border-radius: 12px;        /* Esquinas redondeadas */
-    padding: 20px;
-    width: 280px;               /* Ancho fijo para la tarjeta */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Sombra suave */
-    display: flex;
-    flex-direction: column;
-    align-items: center;        /* Centra el contenido dentro de la tarjeta */
-    text-align: center;
+  background-color: var(--blanco);
+  border-radius: 16px;
+  padding: 22px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease;
 }
 
-/* El precio dentro de la tarjeta */
-.product-card .precio {
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #d90429;
-    margin: 10px 0;
+.product-card:hover {
+  transform: translateY(-5px);
 }
 
-/* Estilo para el botón "Agregar" */
-.product-card .btn-comprar {
-    background-color: #d90429;  /* Botón rojo */
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 100%;                 /* Ocupa el ancho de la tarjeta */
+.product-card h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--verde-oscuro);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.product-card .descripcion {
+  font-size: 0.88rem;
+  color: #555;
+  margin-bottom: 15px;
+  line-height: 1.3;
+}
+
+.variantes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.variantes label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #444;
+}
+
+.select-variante, .select-pan {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-weight: 600;
+  background-color: #f9f9f9;
+}
+
+.precio {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--naranja-tango);
+  margin-bottom: 15px;
+}
+
+.btn-comprar {
+  background-color: var(--verde-tango);
+  color: var(--blanco);
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-comprar:hover {
+  background-color: var(--verde-oscuro);
+}
+
+/* Sección Carrito */
+.carrito-section {
+  max-width: 600px;
+  margin: 40px auto 60px auto;
+  background: var(--blanco);
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.carrito-section h2 {
+  text-align: center;
+  color: var(--verde-oscuro);
+  margin-bottom: 20px;
+  font-weight: 800;
+  border-bottom: 2px solid var(--gris-claro);
+  padding-bottom: 10px;
+}
+
+.item-carrito {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-nombre {
+  font-weight: 700;
+  color: var(--texto-oscuro);
+}
+
+.item-sub {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.item-eliminar {
+  color: red;
+  cursor: pointer;
+  font-weight: bold;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+}
+
+.total-container {
+  font-size: 1.4rem;
+  font-weight: 800;
+  text-align: right;
+  margin-top: 20px;
+  color: var(--verde-oscuro);
+}
+
+.btn-whatsapp {
+  width: 100%;
+  background-color: #25d366;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-transform: uppercase;
+}
+
+.btn-whatsapp:hover {
+  background-color: #1eb854;
 }
