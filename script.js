@@ -159,11 +159,26 @@ function filtrarCategoria(categoria, boton) {
   });
 }
 
-// 7. ENVIAR PEDIDO POR WHATSAPP (INCLUYE NOMBRE Y DIRECCIÓN)
+// Función para mostrar u ocultar la info de transferencia dinámicamente
+function mostrarInfoTransferencia() {
+  const metodoSelect = document.getElementById("metodo-pago");
+  const infoDiv = document.getElementById("info-transferencia");
+  
+  if (metodoSelect && infoDiv) {
+    if (metodoSelect.value === "Transferencia") {
+      infoDiv.style.display = "block";
+    } else {
+      infoDiv.style.display = "none";
+    }
+  }
+}
+
+// Reemplazar la función enviarWhatsApp con el detalle de Método de Pago
 function enviarWhatsApp() {
   const nombre = document.getElementById("nombre") ? document.getElementById("nombre").value.trim() : "";
   const direccion = document.getElementById("direccion") ? document.getElementById("direccion").value.trim() : "";
   const entrecalles = document.getElementById("entrecalles") ? document.getElementById("entrecalles").value.trim() : "";
+  const metodoPago = document.getElementById("metodo-pago") ? document.getElementById("metodo-pago").value : "Efectivo";
 
   if (!nombre) {
     alert("Por favor, ingresa tu nombre antes de enviar el pedido.");
@@ -200,12 +215,22 @@ function enviarWhatsApp() {
   });
 
   mensaje += `*TOTAL:* $${totalGeneral}\n\n`;
-  mensaje += `👤 *DATOS DEL CLIENTE:*\n`;
+  mensaje += `👤 *DATOS DEL CLIENTE Y ENVÍO:*\n`;
   mensaje += `• *Nombre:* ${nombre}\n`;
   mensaje += `• *Dirección:* ${direccion}\n`;
   if (entrecalles) {
     mensaje += `• *Entre calles:* ${entrecalles}\n`;
   }
+  mensaje += `• *Método de pago:* ${metodoPago}\n`;
+
+  if (metodoPago === "Transferencia") {
+    mensaje += `\n💳 *DATOS DE TRANSFERENCIA:*\n`;
+    mensaje += `• *Alias:* tango.ff\n`;
+    mensaje += `• *Titular:* thiago sebastian altamirano\n`;
+    mensaje += `• *Billeteras/Bancos:* Mercado Pago, Naranja X, Cuenta DNI, BNA+, Ualá, etc.\n`;
+    mensaje += `_(Cuando realices el pedido por WhatsApp, pagar al alias indicado y enviar el comprobante de pago a este mismo chat.)_\n`;
+  }
+
   mensaje += `\n¡Quedo a la espera del envío/confirmación!`;
 
   const url = `https://api.whatsapp.com/send?phone=${+5491125645240}&text=${encodeURIComponent(mensaje)}`;
