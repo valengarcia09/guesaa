@@ -34,18 +34,15 @@ body {
 }
 
 .logo-text {
-  font-family: 'Rubik Spray Paint', cursive, sans-serif;
-  font-size: 2.8rem;               /* Tamaño reducido para "afinar" el trazo de la letra */
+  font-family: 'Bungee', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 5rem;
   color: var(--blanco);
-  letter-spacing: 8px;             /* Mayor espacio para dar elegancia y legibilidad */
+  letter-spacing: 3px;
   text-transform: uppercase;
-  
-  /* Eliminamos distorsiones y sombras que engrosan la letra */
   text-shadow: none;
   transform: none;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 .logo-sub {
