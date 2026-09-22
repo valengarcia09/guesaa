@@ -318,3 +318,14 @@ body {
 .btn-red.whatsapp {
   background-color: #25d366;
 }
+/* EFECTO DE SOMBRA Y ANIMACIÓN EN TARJETAS */
+.product-card {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.2) !important;
+}
