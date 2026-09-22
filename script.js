@@ -103,18 +103,19 @@ function eliminarDelCarrito(index) {
 function actualizarCarrito() {
   const listaCarrito = document.getElementById("lista-carrito");
   const totalPrecio = document.getElementById("total-precio");
+  const metodoPagoSelect = document.getElementById("metodo-pago");
 
   if (!listaCarrito || !totalPrecio) return;
 
   if (carrito.length === 0) {
     listaCarrito.innerHTML = `<p style="text-align: center; color: #777;">No has agregado ningún producto aún.</p>`;
     totalPrecio.textContent = "0";
-    actualizarBotonMercadoPago();
+    actualizarBotonMercadoPago(0);
     return;
   }
 
   let html = "";
-  let totalGeneral = 0;
+  let subtotalGeneral = 0;
 
   carrito.forEach((item, index) => {
     let subtotalItem = item.precio;
@@ -127,7 +128,7 @@ function actualizarCarrito() {
       });
     }
 
-    totalGeneral += subtotalItem;
+    subtotalGeneral += subtotalItem;
 
     html += `
       <div style="border-bottom: 1px solid #ddd; padding: 10px 0; display: flex; justify-content: space-between; align-items: center;">
@@ -140,11 +141,24 @@ function actualizarCarrito() {
     `;
   });
 
+  let totalFinal = subtotalGeneral;
+  const esTransferencia = metodoPagoSelect && metodoPagoSelect.value === "Transferencia";
+
+  // Aplicar recargo del 6% si selecciona Transferencia
+  if (esTransferencia) {
+    const recargo = Math.round(subtotalGeneral * 0.06);
+    totalFinal = subtotalGeneral + recargo;
+    html += `
+      <div style="padding: 10px 0; color: #856404; font-weight: bold; border-top: 1px dashed #ccc;">
+        ➕ Recargo por Transferencia/MP (6%): +$${recargo.toLocaleString()}
+      </div>
+    `;
+  }
+
   listaCarrito.innerHTML = html;
-  totalPrecio.textContent = totalGeneral.toLocaleString();
-  
-  // Actualizar el valor del botón azul de Mercado Pago
-  actualizarBotonMercadoPago();
+  totalPrecio.textContent = totalFinal.toLocaleString();
+
+  actualizarBotonMercadoPago(totalFinal);
 }
 
 // 6. FILTRAR CATEGORÍAS DE MENÚ
@@ -187,7 +201,7 @@ function enviarWhatsApp() {
 
   const numeroTelefono = "+5491125645240";
   let mensaje = `¡Hola Tango Fast Food! Soy *${nombre}* y quiero hacer este pedido:\n\n`;
-  let totalGeneral = 0;
+  let subtotalGeneral = 0;
 
   carrito.forEach((item, i) => {
     let subtotalItem = item.precio;
@@ -200,11 +214,20 @@ function enviarWhatsApp() {
       });
     }
 
-    totalGeneral += subtotalItem;
+    subtotalGeneral += subtotalItem;
     mensaje += `${i + 1}. *${item.nombre}* ($${subtotalItem})\n   Detalle: ${item.detalle}${textoAdicionales}\n\n`;
   });
 
-  mensaje += `*TOTAL:* $${totalGeneral}\n\n`;
+  let totalFinal = subtotalGeneral;
+
+  if (metodoPago === "Transferencia") {
+    const recargo = Math.round(subtotalGeneral * 0.06);
+    totalFinal = subtotalGeneral + recargo;
+    mensaje += `*Subtotal:* $${subtotalGeneral}\n`;
+    mensaje += `*Recargo Transferencia (6%):* $${recargo}\n`;
+  }
+
+  mensaje += `*TOTAL FINAL:* $${totalFinal}\n\n`;
   mensaje += `👤 *DATOS DEL CLIENTE Y ENVÍO:*\n`;
   mensaje += `• *Nombre:* ${nombre}\n`;
   mensaje += `• *Dirección:* ${direccion}\n`;
@@ -216,9 +239,8 @@ function enviarWhatsApp() {
   if (metodoPago === "Transferencia") {
     mensaje += `\n💳 *DATOS DE TRANSFERENCIA:*\n`;
     mensaje += `• *Alias:* tango.ff\n`;
-    mensaje += `• *Titular:* thiago sebastian altamirano\n`;
-    mensaje += `• *Billeteras/Bancos:* Mercado Pago, Naranja X, Cuenta DNI, BNA+, Ualá, etc.\n`;
-    mensaje += `_(Pagar al alias indicado y adjuntar el comprobante de pago a este chat.)_\n`;
+    mensaje += `• *Titular:* Thiago sebastian altamirano\n`;
+    mensaje += `_(Pagar $${totalFinal} al alias indicado con el 6% incluido y adjuntar el comprobante de pago a este chat.)_\n`;
   }
 
   mensaje += `\n¡Quedo a la espera del envío/confirmación!`;
@@ -226,7 +248,7 @@ function enviarWhatsApp() {
   const url = `https://api.whatsapp.com/send?phone=${+5491125645240}&text=${encodeURIComponent(mensaje)}`;
   window.open(url, '_blank');
 }
-// MOSTRAR / OCULTAR INFORMACIÓN DE TRANSFERENCIA Y MERCADO PAGO
+// MOSTRAR / OCULTAR INFORMACIÓN Y CALCULAR RECARGO DEL 6%
 function mostrarInfoTransferencia() {
   const metodoSelect = document.getElementById("metodo-pago");
   const infoDiv = document.getElementById("info-transferencia");
@@ -234,10 +256,20 @@ function mostrarInfoTransferencia() {
   if (metodoSelect && infoDiv) {
     if (metodoSelect.value === "Transferencia") {
       infoDiv.style.display = "block";
-      actualizarBotonMercadoPago();
     } else {
       infoDiv.style.display = "none";
     }
+  }
+  // Recalcular el carrito para aplicar o quitar el 6% en el total
+  actualizarCarrito();
+}
+
+// ACTUALIZAR BOTÓN DE MERCADO PAGO CON MONTO FINAL
+function actualizarBotonMercadoPago(totalConRecargo) {
+  const btnMP = document.getElementById("btn-pago-mp");
+  if (btnMP) {
+    btnMP.textContent = `Pagar $${totalConRecargo.toLocaleString()} por Mercado Pago (+6%) 💙`;
+    btnMP.href = `https://link.mercadopago.com.ar/tangofastfood`;
   }
 }
 

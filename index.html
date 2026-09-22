@@ -259,39 +259,42 @@
     <div class="total-container">
       Total: $<span id="total-precio">0</span>
       <div class="datos-envio" style="margin: 20px 0; text-align: left;">
-    <!-- DATOS DEL CLIENTE Y ENVÍO -->
-  <div class="datos-envio" style="margin: 20px 0; text-align: left;">
-    <label for="nombre" style="font-weight: bold; display: block; margin-bottom: 5px;">Tu Nombre:</label>
-    <input type="text" id="nombre" placeholder="Ej: Juan Pérez" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
+    <!-- DATOS DEL CLIENTE Y SELECCIÓN DE MÉTODO DE PAGO CON RECARGO -->
+    <div class="datos-envio" style="margin: 20px 0; text-align: left;">
+      <label for="nombre" style="font-weight: bold; display: block; margin-bottom: 5px;">Tu Nombre:</label>
+      <input type="text" id="nombre" placeholder="Ej: Juan Pérez" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
 
-    <label for="direccion" style="font-weight: bold; display: block; margin-bottom: 5px;">Dirección de entrega:</label>
-    <input type="text" id="direccion" placeholder="Ej: Av. Siempreviva 742" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
+      <label for="direccion" style="font-weight: bold; display: block; margin-bottom: 5px;">Dirección de entrega:</label>
+      <input type="text" id="direccion" placeholder="Ej: Av. Siempreviva 742" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
 
-    <label for="entrecalles" style="font-weight: bold; display: block; margin-bottom: 5px;">Entre calles / Referencias:</label>
-    <input type="text" id="entrecalles" placeholder="Ej: Entre Calle Falsa y Siempreviva" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
-  <!-- MÉTODO DE PAGO Y MERCADO PAGO AUTOMÁTICO -->
-    <label for="metodo-pago" style="font-weight: bold; display: block; margin-bottom: 5px;">Método de pago:</label>
-    <select id="metodo-pago" onchange="mostrarInfoTransferencia()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; background: #fff; margin-bottom: 10px;">
-      <option value="Efectivo">Efectivo</option>
-      <option value="Transferencia">Transferencia / Mercado Pago</option>
-    </select>
+      <label for="entrecalles" style="font-weight: bold; display: block; margin-bottom: 5px;">Entre calles / Referencias:</label>
+      <input type="text" id="entrecalles" placeholder="Ej: Entre Calle Falsa y Siempreviva" style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
 
-    <!-- CUADRO DE INFORMACIÓN Y PAGO DIRECTO POR MERCADO PAGO -->
-    <div id="info-transferencia" style="display: none; background: #f8f9fa; border: 1px solid #007bff; border-radius: 8px; padding: 12px; margin-top: 10px; font-size: 14px;">
-      <p style="margin: 0 0 8px 0; font-weight: bold; color: #007bff;">💳 Datos para Transferencia / Mercado Pago:</p>
-      <p style="margin: 4px 0;"><b>Alias MP:</b> tango.ff</p>
-      <p style="margin: 4px 0;"><b>Titular:</b> thiago sebastian altamirano</p>
-      <p style="margin: 4px 0;"><b>Bancos/Billeteras aceptadas:</b> Mercado Pago, Naranja X, Cuenta DNI, BNA+, Ualá, etc.</p>
+      <!-- SELECCIÓN MÉTODO DE PAGO -->
+      <label for="metodo-pago" style="font-weight: bold; display: block; margin-bottom: 5px;">Método de pago:</label>
+      <select id="metodo-pago" onchange="mostrarInfoTransferencia()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; background: #fff; margin-bottom: 10px;">
+        <option value="Efectivo">Efectivo (Sin recargo)</option>
+        <option value="Transferencia">Transferencia / Mercado Pago (+6% recargo)</option>
+      </select>
 
-      <!-- BOTÓN AUTOMÁTICO DE PAGO DIRECTO -->
-      <a id="btn-pago-mp" href="https://link.mercadopago.com.ar/tangofastfood" target="_blank" style="display: block; text-align: center; background: #009ee3; color: white; font-weight: bold; padding: 12px; border-radius: 8px; text-decoration: none; margin: 12px 0;">
-        Pagar $0 por Mercado Pago 💙
-      </a>
+      <!-- CUADRO DE INFORMACIÓN CON RECARGO Y BOTÓN MP -->
+      <div id="info-transferencia" style="display: none; background: #fff3cd; border: 1px solid #ffeeba; border-radius: 8px; padding: 12px; margin-top: 10px; font-size: 14px;">
+        <p style="margin: 0 0 8px 0; font-weight: bold; color: #856404;">⚠️ Aviso de recargo:</p>
+        <p style="margin: 4px 0; color: #856404;">Los pagos por Transferencia / Mercado Pago tienen un <b>6% de recargo</b> ya aplicado al total de la compra.</p>
+        <hr style="border: 0; border-top: 1px solid #ffeeba; margin: 8px 0;">
+        <p style="margin: 4px 0;"><b>Alias MP:</b> tango.ff</p>
+        <p style="margin: 4px 0;"><b>Titular:</b> thiago sebastian altamirano</p>
 
-      <p style="margin: 8px 0 0 0; font-style: italic; color: #555; font-size: 12px;">
-        (Al hacer clic en el botón azul serás redirigido a Mercado Pago para realizar la transferencia. Una vez realizada, presiona el botón verde para enviar el pedido y el comprobante por WhatsApp).
-      </p>
-  </div>
+        <!-- BOTÓN CON EL MONTO TOTAL INCLUYENDO EL 6% -->
+        <a id="btn-pago-mp" href="https://link.mercadopago.com.ar/tangofastfood" target="_blank" style="display: block; text-align: center; background: #009ee3; color: white; font-weight: bold; padding: 12px; border-radius: 8px; text-decoration: none; margin: 12px 0;">
+          Pagar $0 por Mercado Pago 💙
+        </a>
+
+        <p style="margin: 8px 0 0 0; font-style: italic; color: #555; font-size: 12px;">
+          (Al presionar el botón serás redirigido a Mercado Pago para realizar la transferencia con el recargo incluido. Luego, envía el pedido por WhatsApp).
+        </p>
+      </div>
+    </div>
     <button class="btn-whatsapp" onclick="enviarWhatsApp()">
       📲 Enviar Pedido por WhatsApp
     </button>
