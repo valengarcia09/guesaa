@@ -1,12 +1,12 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- INDICADOR DINÁMICO DE ESTADO DEL LOCAL -->
-<div id="estado-local" style="text-align: center; padding: 10px; font-weight: bold; font-size: 15px; margin-bottom: 15px; border-radius: 8px;">
-  Cargando estado del local...
-</div>
+  <div id="estado-local" style="text-align: center; padding: 10px; font-weight: bold; font-size: 15px; margin-bottom: 15px; border-radius: 8px;">
+    Cargando estado del local...
+  </div>
   <title>Tango Fast Food - Menú Oficial</title>
   
   <!-- Fuentes Google -->
@@ -19,13 +19,23 @@
 </head>
 <body>
 
-  <!-- ENCABEZADO / LOGO TANGO -->
-  <header class="hero-header">
-    <div class="logo-container">
-      <h1 class="logo-text">TANGO</h1>
-      <p class="logo-sub">FAST FOOD</p>
+  <!-- ENCABEZADO / LOGO TANGO PROFESIONAL -->
+<header class="hero-header">
+  <div class="logo-container">
+    <div class="logo-badge">
+      <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"/>
+        <path d="M19 12a7 7 0 0 0-14 0"/>
+        <path d="M5 8h14"/>
+        <path d="M12 2v4"/>
+      </svg>
     </div>
-  </header>
+    <div class="logo-brand">
+      <h1 class="logo-text">TANGO</h1>
+      <span class="logo-sub">FAST FOOD</span>
+    </div>
+  </div>
+</header>
 
   <!-- BANNER INFORMATIVO DE PAN Y PAPAS -->
   <div class="info-banner">
@@ -49,212 +59,261 @@
 
       <!-- SMASH BURGERS -->
       <article class="product-card" data-category="burgers">
-        <h3>CHEESEBURGER</h3>
-        <p class="descripcion">Pan, Cheddar, Medallón de carne.</p>
-        <div class="variantes">
-          <label>Tamaño / Carne:</label>
-          <select class="select-variante">
-            <option value="9000" data-nombre="Simple">Simple - $9.000</option>
-            <option value="11000" data-nombre="Doble" selected>Doble - $11.000</option>
-            <option value="13000" data-nombre="Triple">Triple - $13.000</option>
-          </select>
-          <label>Pan a elección:</label>
-          <select class="select-pan">
-            <option value="Pan de Papa">Pan de Papa</option>
-            <option value="Pan Brioche">Pan Brioche</option>
-            <option value="Pan Parmesano">Pan Parmesano</option>
-          </select>
+        <img src="IMG/cheeseburguerydoblecuarto.jpeg" alt="Cheeseburger" class="product-img">
+        <div class="card-content">
+          <h3>CHEESEBURGER</h3>
+          <p class="descripcion">Pan, Cheddar, Medallón de carne.</p>
+          <div class="variantes">
+            <label>Tamaño / Carne:</label>
+            <select class="select-variante">
+              <option value="9000" data-nombre="Simple">Simple - $9.000</option>
+              <option value="11000" data-nombre="Doble" selected>Doble - $11.000</option>
+              <option value="13000" data-nombre="Triple">Triple - $13.000</option>
+            </select>
+            <label>Pan a elección:</label>
+            <select class="select-pan">
+              <option value="Pan de Papa">Pan de Papa</option>
+              <option value="Pan Brioche">Pan Brioche</option>
+              <option value="Pan Parmesano">Pan Parmesano</option>
+            </select>
+          </div>
+          <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Cheeseburger')">Agregar al Pedido</button>
         </div>
-        <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Cheeseburger')">Agregar al Pedido</button>
       </article>
 
       <article class="product-card" data-category="burgers">
-        <h3>BACON CHEESE</h3>
-        <p class="descripcion">Pan, Cheddar, Bacon, Medallón de carne.</p>
-        <div class="variantes">
-          <label>Tamaño / Carne:</label>
-          <select class="select-variante">
-            <option value="10000" data-nombre="Simple">Simple - $10.000</option>
-            <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
-            <option value="14000" data-nombre="Triple">Triple - $14.000</option>
-          </select>
-          <label>Pan a elección:</label>
-          <select class="select-pan">
-            <option value="Pan de Papa">Pan de Papa</option>
-            <option value="Pan Brioche">Pan Brioche</option>
-            <option value="Pan Parmesano">Pan Parmesano</option>
-          </select>
+        <img src="IMG/baconcheese.jpeg"alt="Bacon Cheese" class="product-img">
+        <div class="card-content">
+          <h3>BACON CHEESE</h3>
+          <p class="descripcion">Pan, Cheddar, Bacon, Medallón de carne.</p>
+          <div class="variantes">
+            <label>Tamaño / Carne:</label>
+            <select class="select-variante">
+              <option value="10000" data-nombre="Simple">Simple - $10.000</option>
+              <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
+              <option value="14000" data-nombre="Triple">Triple - $14.000</option>
+            </select>
+            <label>Pan a elección:</label>
+            <select class="select-pan">
+              <option value="Pan de Papa">Pan de Papa</option>
+              <option value="Pan Brioche">Pan Brioche</option>
+              <option value="Pan Parmesano">Pan Parmesano</option>
+            </select>
+          </div>
+          <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Bacon Cheese')">Agregar al Pedido</button>
         </div>
-        <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Bacon Cheese')">Agregar al Pedido</button>
       </article>
 
       <article class="product-card" data-category="burgers">
-        <h3>CLÁSICA</h3>
-        <p class="descripcion">Pan, Cheddar, Lechuga, Tomate, Medallón de carne.</p>
-        <div class="variantes">
-          <label>Tamaño / Carne:</label>
-          <select class="select-variante">
-            <option value="10000" data-nombre="Simple">Simple - $10.000</option>
-            <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
-            <option value="14000" data-nombre="Triple">Triple - $14.000</option>
-          </select>
-          <label>Pan a elección:</label>
-          <select class="select-pan">
-            <option value="Pan de Papa">Pan de Papa</option>
-            <option value="Pan Brioche">Pan Brioche</option>
-            <option value="Pan Parmesano">Pan Parmesano</option>
-          </select>
+        <img src="IMG/clasica.jpeg" alt="Clásica" class="product-img">
+        <div class="card-content">
+          <h3>CLÁSICA</h3>
+          <p class="descripcion">Pan, Cheddar, Lechuga, Tomate, Medallón de carne.</p>
+          <div class="variantes">
+            <label>Tamaño / Carne:</label>
+            <select class="select-variante">
+              <option value="10000" data-nombre="Simple">Simple - $10.000</option>
+              <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
+              <option value="14000" data-nombre="Triple">Triple - $14.000</option>
+            </select>
+            <label>Pan a elección:</label>
+            <select class="select-pan">
+              <option value="Pan de Papa">Pan de Papa</option>
+              <option value="Pan Brioche">Pan Brioche</option>
+              <option value="Pan Parmesano">Pan Parmesano</option>
+            </select>
+          </div>
+          <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Clásica')">Agregar al Pedido</button>
         </div>
-        <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Clásica')">Agregar al Pedido</button>
       </article>
 
       <article class="product-card" data-category="burgers">
-        <h3>CRISPY TANGO</h3>
-        <p class="descripcion">Pan, Cheddar, Cebolla Crispy, Mayonesa Tango, Barbacoa, Medallón de carne.</p>
-        <div class="variantes">
-          <label>Tamaño / Carne:</label>
-          <select class="select-variante">
-            <option value="10000" data-nombre="Simple">Simple - $10.000</option>
-            <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
-            <option value="14000" data-nombre="Triple">Triple - $14.000</option>
-          </select>
-          <label>Pan a elección:</label>
-          <select class="select-pan">
-            <option value="Pan de Papa">Pan de Papa</option>
-            <option value="Pan Brioche">Pan Brioche</option>
-            <option value="Pan Parmesano">Pan Parmesano</option>
-          </select>
+        <img src="IMG/crispytango.jpeg" alt="Crispy Tango" class="product-img">
+        <div class="card-content">
+          <h3>CRISPY TANGO</h3>
+          <p class="descripcion">Pan, Cheddar, Cebolla Crispy, Mayonesa Tango, Barbacoa, Medallón de carne.</p>
+          <div class="variantes">
+            <label>Tamaño / Carne:</label>
+            <select class="select-variante">
+              <option value="10000" data-nombre="Simple">Simple - $10.000</option>
+              <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
+              <option value="14000" data-nombre="Triple">Triple - $14.000</option>
+            </select>
+            <label>Pan a elección:</label>
+            <select class="select-pan">
+              <option value="Pan de Papa">Pan de Papa</option>
+              <option value="Pan Brioche">Pan Brioche</option>
+              <option value="Pan Parmesano">Pan Parmesano</option>
+            </select>
+          </div>
+          <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Crispy Tango')">Agregar al Pedido</button>
         </div>
-        <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Crispy Tango')">Agregar al Pedido</button>
       </article>
 
       <article class="product-card" data-category="burgers">
-        <h3>OKLAHOMA</h3>
-        <p class="descripcion">Pan, Cheddar, Cebolla caramelizada, Medallón de carne.</p>
-        <div class="variantes">
-          <label>Tamaño / Carne:</label>
-          <select class="select-variante">
-            <option value="10000" data-nombre="Simple">Simple - $10.000</option>
-            <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
-            <option value="14000" data-nombre="Triple">Triple - $14.000</option>
-          </select>
-          <label>Pan a elección:</label>
-          <select class="select-pan">
-            <option value="Pan de Papa">Pan de Papa</option>
-            <option value="Pan Brioche">Pan Brioche</option>
-            <option value="Pan Parmesano">Pan Parmesano</option>
-          </select>
+        <img src="IMG/oklahoma.jpeg" alt="Oklahoma" class="product-img">
+        <div class="card-content">
+          <h3>OKLAHOMA</h3>
+          <p class="descripcion">Pan, Cheddar, Cebolla caramelizada, Medallón de carne.</p>
+          <div class="variantes">
+            <label>Tamaño / Carne:</label>
+            <select class="select-variante">
+              <option value="10000" data-nombre="Simple">Simple - $10.000</option>
+              <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
+              <option value="14000" data-nombre="Triple">Triple - $14.000</option>
+            </select>
+            <label>Pan a elección:</label>
+            <select class="select-pan">
+              <option value="Pan de Papa">Pan de Papa</option>
+              <option value="Pan Brioche">Pan Brioche</option>
+              <option value="Pan Parmesano">Pan Parmesano</option>
+            </select>
+          </div>
+          <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Oklahoma')">Agregar al Pedido</button>
         </div>
-        <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Oklahoma')">Agregar al Pedido</button>
       </article>
 
       <article class="product-card" data-category="burgers">
-        <h3>AMERICANA</h3>
-        <p class="descripcion">Pan, Cheddar, Bacon, Barbacoa, Huevo, Medallón de carne.</p>
-        <div class="variantes">
-          <label>Tamaño / Carne:</label>
-          <select class="select-variante">
-            <option value="10000" data-nombre="Simple">Simple - $10.000</option>
-            <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
-            <option value="14000" data-nombre="Triple">Triple - $14.000</option>
-          </select>
-          <label>Pan a elección:</label>
-          <select class="select-pan">
-            <option value="Pan de Papa">Pan de Papa</option>
-            <option value="Pan Brioche">Pan Brioche</option>
-            <option value="Pan Parmesano">Pan Parmesano</option>
-          </select>
+        <img src="IMG/americana.jpeg" alt="Americana" class="product-img">
+        <div class="card-content">
+          <h3>AMERICANA</h3>
+          <p class="descripcion">Pan, Cheddar, Bacon, Barbacoa, Huevo, Medallón de carne.</p>
+          <div class="variantes">
+            <label>Tamaño / Carne:</label>
+            <select class="select-variante">
+              <option value="10000" data-nombre="Simple">Simple - $10.000</option>
+              <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
+              <option value="14000" data-nombre="Triple">Triple - $14.000</option>
+            </select>
+            <label>Pan a elección:</label>
+            <select class="select-pan">
+              <option value="Pan de Papa">Pan de Papa</option>
+              <option value="Pan Brioche">Pan Brioche</option>
+              <option value="Pan Parmesano">Pan Parmesano</option>
+            </select>
+          </div>
+          <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Americana')">Agregar al Pedido</button>
         </div>
-        <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Americana')">Agregar al Pedido</button>
       </article>
 
       <article class="product-card" data-category="burgers">
-        <h3>CUARTO DE LIBRA</h3>
-        <p class="descripcion">Pan, Cheddar, Salsa Cuarto, Medallón de carne.</p>
-        <div class="variantes">
-          <label>Tamaño / Carne:</label>
-          <select class="select-variante">
-            <option value="10000" data-nombre="Simple">Simple - $10.000</option>
-            <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
-            <option value="14000" data-nombre="Triple">Triple - $14.000</option>
-          </select>
-          <label>Pan a elección:</label>
-          <select class="select-pan">
-            <option value="Pan de Papa">Pan de Papa</option>
-            <option value="Pan Brioche">Pan Brioche</option>
-            <option value="Pan Parmesano">Pan Parmesano</option>
-          </select>
+        <img src="IMG/cheeseburguerydoblecuarto.jpeg" alt="Cuarto de Libra" class="product-img">
+        <div class="card-content">
+          <h3>CUARTO DE LIBRA</h3>
+          <p class="descripcion">Pan, Cheddar, Salsa Cuarto, Medallón de carne.</p>
+          <div class="variantes">
+            <label>Tamaño / Carne:</label>
+            <select class="select-variante">
+              <option value="10000" data-nombre="Simple">Simple - $10.000</option>
+              <option value="12000" data-nombre="Doble" selected>Doble - $12.000</option>
+              <option value="14000" data-nombre="Triple">Triple - $14.000</option>
+            </select>
+            <label>Pan a elección:</label>
+            <select class="select-pan">
+              <option value="Pan de Papa">Pan de Papa</option>
+              <option value="Pan Brioche">Pan Brioche</option>
+              <option value="Pan Parmesano">Pan Parmesano</option>
+            </select>
+          </div>
+          <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Cuarto de Libra')">Agregar al Pedido</button>
         </div>
-        <button class="btn-comprar" onclick="agregarAlCarrito(this, 'Cuarto de Libra')">Agregar al Pedido</button>
       </article>
 
       <!-- GUARNICIONES -->
       <article class="product-card" data-category="guarniciones">
-        <h3>PORCIÓN PAPAS CLÁSICAS</h3>
-        <p class="descripcion">Porción de papas fritas crocantes.</p>
-        <span class="precio">$8.000</span>
-        <button class="btn-comprar" onclick="agregarDirecto('Porción Papas Clásicas', 8000)">Agregar al Pedido</button>
+        <img src="IMG/porcionpapasclasicas.jpeg" alt="Porción Papas Clásicas" class="product-img">
+        <div class="card-content">
+          <h3>PORCIÓN PAPAS CLÁSICAS</h3>
+          <p class="descripcion">Porción de papas fritas crocantes.</p>
+          <span class="precio">$8.000</span>
+          <button class="btn-comprar" onclick="agregarDirecto('Porción Papas Clásicas', 8000)">Agregar al Pedido</button>
+        </div>
       </article>
 
       <article class="product-card" data-category="guarniciones">
-        <h3>PORCIÓN PAPAS TANGO</h3>
-        <p class="descripcion">Papas fritas con cheddar, bacon y verdeo.</p>
-        <span class="precio">$10.000</span>
-        <button class="btn-comprar" onclick="agregarDirecto('Porción Papas Tango', 10000)">Agregar al Pedido</button>
+        <img src="IMG/papastango.jpeg" alt="Porción Papas Tango" class="product-img">
+        <div class="card-content">
+          <h3>PORCIÓN PAPAS TANGO</h3>
+          <p class="descripcion">Papas fritas con cheddar, bacon y verdeo.</p>
+          <span class="precio">$10.000</span>
+          <button class="btn-comprar" onclick="agregarDirecto('Porción Papas Tango', 10000)">Agregar al Pedido</button>
+        </div>
       </article>
 
       <article class="product-card" data-category="guarniciones">
-        <h3>PORCIÓN PAPAS C/ CHEDDAR</h3>
-        <p class="descripcion">Papas fritas bañadas en salsa cheddar.</p>
-        <span class="precio">$9.000</span>
-        <button class="btn-comprar" onclick="agregarDirecto('Porción Papas c/ Cheddar', 9000)">Agregar al Pedido</button>
+        <img src="IMG/papasconcheddar.jpeg" alt="Porción Papas c/ Cheddar" class="product-img">
+        <div class="card-content">
+          <h3>PORCIÓN PAPAS C/ CHEDDAR</h3>
+          <p class="descripcion">Papas fritas bañadas en salsa cheddar.</p>
+          <span class="precio">$9.000</span>
+          <button class="btn-comprar" onclick="agregarDirecto('Porción Papas c/ Cheddar', 9000)">Agregar al Pedido</button>
+        </div>
       </article>
 
-     <!-- ADICIONALES -->
+      <!-- ADICIONALES -->
       <article class="product-card" data-category="adicionales">
-        <h3>BLEND DE CARNE</h3>
-        <p class="descripcion">Medallón adicional de carne.</p>
-        <span class="precio">$2.500</span>
-        <button class="btn-comprar" onclick="agregarAdicional('Blend de carne', 2500)">Agregar al Pedido</button>
-      </article>
-
-      <article class="product-card" data-category="adicionales">
-        <h3>EXTRA CHEDDAR</h3>
-        <p class="descripcion">Salsa de queso cheddar adicional.</p>
-        <span class="precio">$1.500</span>
-        <button class="btn-comprar" onclick="agregarAdicional('Extra Cheddar', 1500)">Agregar al Pedido</button>
-      </article>
-
-      <article class="product-card" data-category="adicionales">
-        <h3>EXTRA BACON</h3>
-        <p class="descripcion">Panceta crocante adicional.</p>
-        <span class="precio">$2.000</span>
-        <button class="btn-comprar" onclick="agregarAdicional('Extra Bacon', 2000)">Agregar al Pedido</button>
+        <img src="IMG/carneextra.jpeg" alt="Blend de Carne" class="product-img">
+        <div class="card-content">
+          <h3>BLEND DE CARNE</h3>
+          <p class="descripcion">Medallón adicional de carne.</p>
+          <span class="precio">$2.500</span>
+          <button class="btn-comprar" onclick="agregarAdicional('Blend de carne', 2500)">Agregar al Pedido</button>
+        </div>
       </article>
 
       <article class="product-card" data-category="adicionales">
-        <h3>HUEVO</h3>
-        <p class="descripcion">Huevo adicional.</p>
-        <span class="precio">$500</span>
-        <button class="btn-comprar" onclick="agregarAdicional('Huevo', 500)">Agregar al Pedido</button>
+        <img src="IMG/adicionalcheddar.jpeg" alt="Extra Cheddar" class="product-img">
+        <div class="card-content">
+          <h3>EXTRA CHEDDAR</h3>
+          <p class="descripcion">Salsa de queso cheddar adicional.</p>
+          <span class="precio">$1.500</span>
+          <button class="btn-comprar" onclick="agregarAdicional('Extra Cheddar', 1500)">Agregar al Pedido</button>
+        </div>
       </article>
 
       <article class="product-card" data-category="adicionales">
-        <h3>CEBOLLA</h3>
-        <p class="descripcion">Caramelizada o Crispy.</p>
-        <span class="precio">$1.000</span>
-        <button class="btn-comprar" onclick="agregarAdicional('Cebolla', 1000)">Agregar al Pedido</button>
+        <img src="IMG/bacon.jpeg" alt="Extra Bacon" class="product-img">
+        <div class="card-content">
+          <h3>EXTRA BACON</h3>
+          <p class="descripcion">Panceta crocante adicional.</p>
+          <span class="precio">$2.000</span>
+          <button class="btn-comprar" onclick="agregarAdicional('Extra Bacon', 2000)">Agregar al Pedido</button>
+        </div>
       </article>
 
       <article class="product-card" data-category="adicionales">
-        <h3>CHEDDAR, BACON Y VERDEO EN PAPAS</h3>
-        <p class="descripcion">Topping para tus papas fritas.</p>
-        <span class="precio">$2.500</span>
-        <button class="btn-comprar" onclick="agregarAdicional('Topping Cheddar, Bacon y Verdeo', 2500)">Agregar al Pedido</button>
+        <img src="IMG/huevo.jpeg" alt="Huevo" class="product-img">
+        <div class="card-content">
+          <h3>HUEVO</h3>
+          <p class="descripcion">Huevo adicional.</p>
+          <span class="precio">$500</span>
+          <button class="btn-comprar" onclick="agregarAdicional('Huevo', 500)">Agregar al Pedido</button>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="adicionales">
+        <img src="IMG/cebollacaramelizada.jpeg" alt="Cebolla" class="product-img">
+        <div class="card-content">
+          <h3>CEBOLLA</h3>
+          <p class="descripcion">Caramelizada o Crispy.</p>
+          <span class="precio">$1.000</span>
+          <button class="btn-comprar" onclick="agregarAdicional('Cebolla', 1000)">Agregar al Pedido</button>
+        </div>
+      </article>
+
+      <article class="product-card" data-category="adicionales">
+        <img src="IMG/baconverdeocheddaradicional.jpeg" alt="Cheddar, Bacon y Verdeo en Papas" class="product-img">
+        <div class="card-content">
+          <h3>CHEDDAR, BACON Y VERDEO EN PAPAS</h3>
+          <p class="descripcion">Topping para tus papas fritas.</p>
+          <span class="precio">$2.500</span>
+          <button class="btn-comprar" onclick="agregarAdicional('Topping Cheddar, Bacon y Verdeo', 2500)">Agregar al Pedido</button>
+        </div>
       </article>
 
     </div>
   </main>
+
   <section class="carrito-section">
     <h2>TU PEDIDO</h2>
     <div id="lista-carrito">
@@ -262,7 +321,7 @@
     </div>
     <div class="total-container">
       Total: $<span id="total-precio">0</span>
-      <div class="datos-envio" style="margin: 20px 0; text-align: left;">
+    </div>
     <!-- DATOS DEL CLIENTE Y SELECCIÓN DE MÉTODO DE PAGO CON RECARGO -->
     <div class="datos-envio" style="margin: 20px 0; text-align: left;">
       <label for="nombre" style="font-weight: bold; display: block; margin-bottom: 5px;">Tu Nombre:</label>
@@ -273,15 +332,17 @@
 
       <label for="entrecalles" style="font-weight: bold; display: block; margin-bottom: 5px;">Entre calles / Referencias:</label>
       <input type="text" id="entrecalles" placeholder="Ej: Entre Calle Falsa y Siempreviva" style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
-<!-- CAMPO NOTAS / OBSERVACIONES -->
-    <label for="observaciones" style="font-weight: bold; display: block; margin-top: 10px; margin-bottom: 5px;">Notas / Aclaraciones del pedido:</label>
-    <textarea id="observaciones" placeholder="Ej: Sin cebolla, salsa aparte, tocar timbre 2B" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; margin-bottom: 10px; height: 60px; resize: none;"></textarea>
 
-    <!-- CAMPO CÁLCULO DE VUELTO (Se muestra solo con Efectivo) -->
-    <div id="campo-vuelto" style="margin-bottom: 10px;">
-      <label for="pago-con" style="font-weight: bold; display: block; margin-bottom: 5px;">¿Con cuánto vas a pagar? (Para llevar vuelto):</label>
-      <input type="number" id="pago-con" placeholder="Ej: 10000" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
-    </div>
+      <!-- CAMPO NOTAS / OBSERVACIONES -->
+      <label for="observaciones" style="font-weight: bold; display: block; margin-top: 10px; margin-bottom: 5px;">Notas / Aclaraciones del pedido:</label>
+      <textarea id="observaciones" placeholder="Ej: Sin cebolla, salsa aparte, tocar timbre 2B" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; margin-bottom: 10px; height: 60px; resize: none;"></textarea>
+
+      <!-- CAMPO CÁLCULO DE VUELTO (Se muestra solo con Efectivo) -->
+      <div id="campo-vuelto" style="margin-bottom: 10px;">
+        <label for="pago-con" style="font-weight: bold; display: block; margin-bottom: 5px;">¿Con cuánto vas a pagar? (Para llevar vuelto):</label>
+        <input type="number" id="pago-con" placeholder="Ej: 10000" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
+      </div>
+
       <!-- SELECCIÓN MÉTODO DE PAGO -->
       <label for="metodo-pago" style="font-weight: bold; display: block; margin-bottom: 5px;">Método de pago:</label>
       <select id="metodo-pago" onchange="mostrarInfoTransferencia()" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; background: #fff; margin-bottom: 10px;">
@@ -307,6 +368,7 @@
         </p>
       </div>
     </div>
+
     <button class="btn-whatsapp" onclick="enviarWhatsApp()">
       📲 Enviar Pedido por WhatsApp
     </button>
@@ -331,23 +393,25 @@
       </a>
     </div>
   </footer>
-<!-- BOTÓN FLOTANTE DEL CARRITO -->
-<div id="btn-carrito-flotante" onclick="document.querySelector('.carrito-section').scrollIntoView({ behavior: 'smooth' });" style="position: fixed; bottom: 20px; right: 20px; background: #e63946; color: white; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; z-index: 1000;">
-  🛒
-  <span id="badge-contador" style="position: absolute; top: -5px; right: -5px; background: #fff; color: #e63946; font-size: 12px; font-weight: bold; padding: 3px 7px; border-radius: 50%; border: 2px solid #e63946;">0</span>
-</div>
 
-<!-- MODAL DE RESUMEN DE PEDIDO -->
-<div id="modal-resumen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center;">
-  <div style="background: white; width: 90%; max-width: 450px; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-height: 85vh; overflow-y: auto;">
-    <h3 style="margin-top: 0; text-align: center; color: #333;">📋 Resumen de tu Pedido</h3>
-    <div id="contenido-modal" style="font-size: 14px; color: #444; line-height: 1.5; margin-bottom: 20px;"></div>
-    <div style="display: flex; gap: 10px;">
-      <button onclick="cerrarModal()" style="flex: 1; padding: 10px; background: #888; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Cancelar</button>
-      <button onclick="confirmarYEnviarWhatsApp()" style="flex: 1; padding: 10px; background: #25d366; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Confirmar y Enviar 📲</button>
-    </div>
+  <!-- BOTÓN FLOTANTE DEL CARRITO -->
+  <div id="btn-carrito-flotante" onclick="document.querySelector('.carrito-section').scrollIntoView({ behavior: 'smooth' });" style="position: fixed; bottom: 20px; right: 20px; background: #e63946; color: white; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; z-index: 1000;">
+    🛒
+    <span id="badge-contador" style="position: absolute; top: -5px; right: -5px; background: #fff; color: #e63946; font-size: 12px; font-weight: bold; padding: 3px 7px; border-radius: 50%; border: 2px solid #e63946;">0</span>
   </div>
-</div>
+
+  <!-- MODAL DE RESUMEN DE PEDIDO -->
+  <div id="modal-resumen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; align-items: center; justify-content: center;">
+    <div style="background: white; width: 90%; max-width: 450px; padding: 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-height: 85vh; overflow-y: auto;">
+      <h3 style="margin-top: 0; text-align: center; color: #333;">📋 Resumen de tu Pedido</h3>
+      <div id="contenido-modal" style="font-size: 14px; color: #444; line-height: 1.5; margin-bottom: 20px;"></div>
+      <div style="display: flex; gap: 10px;">
+        <button onclick="cerrarModal()" style="flex: 1; padding: 10px; background: #888; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Cancelar</button>
+        <button onclick="confirmarYEnviarWhatsApp()" style="flex: 1; padding: 10px; background: #25d366; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">Confirmar y Enviar 📲</button>
+      </div>
+    </div>
+  </div> 
+
   <!-- SCRIPT -->
   <script src="script.js"></script>
 </body>

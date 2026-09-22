@@ -318,14 +318,78 @@ body {
 .btn-red.whatsapp {
   background-color: #25d366;
 }
-/* EFECTO DE SOMBRA Y ANIMACIÓN EN TARJETAS */
+/* ESTILOS PARA LAS TARJETAS E IMÁGENES */
 .product-card {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 0 !important; /* Elimina márgenes internos superiores para la foto */
+  overflow: hidden; /* Mantiene la imagen redondeada en las esquinas superiores */
+  display: flex;
+  flex-direction: column;
 }
 
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.2) !important;
+.product-img {
+  width: 100%;
+  height: 180px; /* Altura estándar ideal */
+  object-fit: cover; /* Ajusta la imagen sin estirarla */
+  display: block;
+}
+
+.card-content {
+  padding: 15px; /* Crea el espacio interno para el texto y botones */
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+/* --- ESTILOS ENCABEZADO MEJORADO --- */
+.hero-header {
+  background: linear-gradient(135deg, #1b3226 0%, #0e1e16 100%);
+  padding: 30px 20px;
+  border-bottom: 3px solid #e63946;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.logo-badge {
+  background: #e63946;
+  color: #ffffff;
+  padding: 12px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+}
+
+.logo-icon {
+  width: 38px;
+  height: 38px;
+}
+
+.logo-brand {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1;
+}
+
+.logo-sub {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 5px;
+  color: #ffb703;
+  margin-top: 4px;
 }
