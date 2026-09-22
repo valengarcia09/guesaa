@@ -109,6 +109,7 @@ function actualizarCarrito() {
   if (carrito.length === 0) {
     listaCarrito.innerHTML = `<p style="text-align: center; color: #777;">No has agregado ningún producto aún.</p>`;
     totalPrecio.textContent = "0";
+    actualizarBotonMercadoPago();
     return;
   }
 
@@ -141,6 +142,9 @@ function actualizarCarrito() {
 
   listaCarrito.innerHTML = html;
   totalPrecio.textContent = totalGeneral.toLocaleString();
+  
+  // Actualizar el valor del botón azul de Mercado Pago
+  actualizarBotonMercadoPago();
 }
 
 // 6. FILTRAR CATEGORÍAS DE MENÚ
@@ -163,6 +167,8 @@ function enviarWhatsApp() {
   const nombre = document.getElementById("nombre") ? document.getElementById("nombre").value.trim() : "";
   const direccion = document.getElementById("direccion") ? document.getElementById("direccion").value.trim() : "";
   const entrecalles = document.getElementById("entrecalles") ? document.getElementById("entrecalles").value.trim() : "";
+  const metodoPagoSelect = document.getElementById("metodo-pago");
+  const metodoPago = metodoPagoSelect ? metodoPagoSelect.value : "Efectivo";
 
   if (!nombre) {
     alert("Por favor, ingresa tu nombre antes de enviar el pedido.");
@@ -199,14 +205,49 @@ function enviarWhatsApp() {
   });
 
   mensaje += `*TOTAL:* $${totalGeneral}\n\n`;
-  mensaje += `👤 *DATOS DEL CLIENTE:*\n`;
+  mensaje += `👤 *DATOS DEL CLIENTE Y ENVÍO:*\n`;
   mensaje += `• *Nombre:* ${nombre}\n`;
   mensaje += `• *Dirección:* ${direccion}\n`;
   if (entrecalles) {
     mensaje += `• *Entre calles:* ${entrecalles}\n`;
   }
+  mensaje += `• *Método de pago:* ${metodoPago}\n`;
+
+  if (metodoPago === "Transferencia") {
+    mensaje += `\n💳 *DATOS DE TRANSFERENCIA:*\n`;
+    mensaje += `• *Alias:* tango.ff\n`;
+    mensaje += `• *Titular:* thiago sebastian altamirano\n`;
+    mensaje += `• *Billeteras/Bancos:* Mercado Pago, Naranja X, Cuenta DNI, BNA+, Ualá, etc.\n`;
+    mensaje += `_(Pagar al alias indicado y adjuntar el comprobante de pago a este chat.)_\n`;
+  }
+
   mensaje += `\n¡Quedo a la espera del envío/confirmación!`;
 
   const url = `https://api.whatsapp.com/send?phone=${+5491125645240}&text=${encodeURIComponent(mensaje)}`;
   window.open(url, '_blank');
-}s
+}
+// MOSTRAR / OCULTAR INFORMACIÓN DE TRANSFERENCIA Y MERCADO PAGO
+function mostrarInfoTransferencia() {
+  const metodoSelect = document.getElementById("metodo-pago");
+  const infoDiv = document.getElementById("info-transferencia");
+  
+  if (metodoSelect && infoDiv) {
+    if (metodoSelect.value === "Transferencia") {
+      infoDiv.style.display = "block";
+      actualizarBotonMercadoPago();
+    } else {
+      infoDiv.style.display = "none";
+    }
+  }
+}
+
+// ACTUALIZAR MONTO Y LINK EN EL BOTÓN DE MERCADO PAGO
+function actualizarBotonMercadoPago() {
+  const btnMP = document.getElementById("btn-pago-mp");
+  const totalPrecio = document.getElementById("total-precio");
+
+  if (btnMP && totalPrecio) {
+    btnMP.textContent = `Pagar $${totalPrecio.textContent} por Mercado Pago 💙`;
+    btnMP.href = `https://link.mercadopago.com.ar/tangofastfood`; // Reemplaza por tu link de Mercado Pago
+  }
+}
