@@ -1,5 +1,5 @@
 :root {
-  --verde-tango: #3c6148;
+  --verde-tango: #1b3226;
   --verde-oscuro: #2b4734;
   --naranja-tango: #e05328;
   --blanco: #ffffff;
@@ -21,37 +21,62 @@ body {
   background-size: 20px 20px;
 }
 
-/* Encabezado con patrón Ajedrezado */
 .hero-header {
-  background-color: var(--verde-oscuro);
-  padding: 40px 20px;
-  text-align: center;
-  position: relative;
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
-  /* Patrón damero / ajedrez */
-  border-image: repeating-linear-gradient(45deg, #fff, #fff 10px, var(--verde-oscuro) 10px, var(--verde-oscuro) 20px) 20;
+  background: linear-gradient(135deg, #1b3226 0%, #0e1e16 100%);
+  padding: 30px 20px;
+  border-bottom: 3px solid #e63946;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.logo-badge {
+  background: #e05328;
+  color: #ffffff;
+  padding: 12px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+}
+
+.logo-icon {
+  width: 38px;
+  height: 38px;
+}
+
+.logo-brand {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo-text {
   font-family: 'Bungee', sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 5rem;
-  color: var(--blanco);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  text-shadow: none;
-  transform: none;
+  font-weight: 800;
+  font-size: 50px;
+  letter-spacing: 2px;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1;
+  margin-left: 8px;
 }
 
 .logo-sub {
-  color: var(--blanco);
-  font-weight: 800;
+  font-family: 'Bungee', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
   letter-spacing: 5px;
-  font-size: 1.2rem;
-  margin-top: -5px;
+  color: #ffb703;
+  margin-top: 4px;
+  margin-left: 26px;
 }
+
 
 /* Banner Informativo */
 .info-banner {
@@ -338,58 +363,4 @@ body {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-}
-/* --- ESTILOS ENCABEZADO MEJORADO --- */
-.hero-header {
-  background: linear-gradient(135deg, #1b3226 0%, #0e1e16 100%);
-  padding: 30px 20px;
-  border-bottom: 3px solid #e63946;
-}
-
-.logo-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
-
-.logo-badge {
-  background: #e63946;
-  color: #ffffff;
-  padding: 12px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
-}
-
-.logo-icon {
-  width: 38px;
-  height: 38px;
-}
-
-.logo-brand {
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-}
-
-.logo-text {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 800;
-  font-size: 2.2rem;
-  letter-spacing: 2px;
-  color: #ffffff;
-  margin: 0;
-  line-height: 1;
-}
-
-.logo-sub {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: 0.85rem;
-  letter-spacing: 5px;
-  color: #ffb703;
-  margin-top: 4px;
 }
