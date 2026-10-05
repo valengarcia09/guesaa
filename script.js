@@ -22,17 +22,17 @@ function verificarEstadoLocal() {
   const esDiaPermitido = (dia === 5 || dia === 6 || dia === 0);
   const esHoraPermitida = (hora >= 19 && hora < 24);
 
-  if (esDiaPermitido && esHoraPermitida) {
-    contenedor.innerHTML = "🟢 <b>LOCAL ABIERTO</b> (Horario: Vie a Dom 19:00 a 00:00 hs)";
-    contenedor.style.background = "#d4edda";
-    contenedor.style.color = "#155724";
-    contenedor.style.border = "1px solid #c3e6cb";
-  } else {
-    contenedor.innerHTML = "🔴 <b>LOCAL CERRADO</b> (Horario: Vie a Dom 19:00 a 00:00 hs)";
-    contenedor.style.background = "#f8d7da";
-    contenedor.style.color = "#721c24";
-    contenedor.style.border = "1px solid #f5c6cb";
-  }
+ if (esDiaPermitido && esHoraPermitida) {
+  contenedor.innerHTML = `<img src="IMG/open.png" alt="Abierto" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 6px;"> <b>LOCAL ABIERTO</b> (Horario: Vie a Dom 19:00 a 00:00 hs)`;
+  contenedor.style.background = "#81df97";
+  contenedor.style.color = "#155724";
+  contenedor.style.border = "1px solid #81df97";
+} else {
+  contenedor.innerHTML = `<img src="IMG/closed.png" alt="Cerrado" style="width: 30px; height: 30px; vertical-align: middle; margin-right: 6px;"> <b>LOCAL CERRADO</b> (Horario: Vie a Dom 19:00 a 00:00 hs)`;
+  contenedor.style.background = "#f8808a";
+  contenedor.style.color = "#721c24";
+  contenedor.style.border = "1px solid #f8808a";
+}
 }
 
 // 1. AGREGAR HAMBURGUESAS AL CARRITO
