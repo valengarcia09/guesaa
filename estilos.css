@@ -5,7 +5,7 @@
   --blanco: #ffffff;
   --gris-claro: #f4f6f4;
   --texto-oscuro: #1e1e1e;
-}
+} /*configuracion de colores*/
 
 * {
   box-sizing: border-box;
@@ -36,8 +36,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
-}
+  gap: 15px; /*dimensiones de icono*/
+} 
 
 .logo-badge {
   background: #e05328;
@@ -53,13 +53,13 @@ body {
 .logo-icon {
   width: 38px;
   height: 38px;
-}
+} /*tamaño de icono*/
 
 .logo-brand {
   text-align: left;
   display: flex;
   flex-direction: column;
-}
+} /*posicion del titulo*/
 
 .logo-text {
   font-family: 'Bungee', sans-serif;
@@ -70,7 +70,7 @@ body {
   margin: 0;
   line-height: 1;
   margin-left: 8px;
-}
+} /*estilos de TANGO*/
 
 .logo-sub {
   font-family: 'Bungee', sans-serif;
@@ -80,7 +80,7 @@ body {
   color: #ffb703;
   margin-top: 4px;
   margin-left: 26px;
-}
+} /*estiño FAST food*/
 
 
 /* Banner Informativo */
@@ -113,7 +113,7 @@ body {
   margin-bottom: 25px;
   text-transform: uppercase;
   letter-spacing: 1px;
-}
+} /*nuestro menu*/
 
 /* Categorías */
 .categorias-container {
@@ -122,7 +122,7 @@ body {
   gap: 10px;
   margin-bottom: 35px;
   flex-wrap: wrap;
-}
+} /*posicion de contenedores*/ 
 
 .btn-categoria {
   background-color: rgba(255, 255, 255, 0.15);
@@ -133,7 +133,7 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-}
+} /*formas del contenedor*/
 
 .btn-categoria:hover, .btn-categoria.active {
   background-color: var(--blanco);
