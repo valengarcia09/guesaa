@@ -5,6 +5,62 @@
 let carrito = [];
 let mensajeWhatsAppGenerado = "";
 let adicionalPendiente = null;
+let totalActualPedido = 0;
+let categoriaActiva = "todas";
+
+// -------------------------------------------------------------
+// PERSISTENCIA (localStorage): carrito + datos del cliente
+// -------------------------------------------------------------
+const LS_CARRITO = "tango_carrito_v1";
+const LS_CLIENTE = "tango_cliente_v1";
+
+function guardarCarrito() {
+  try {
+    localStorage.setItem(LS_CARRITO, JSON.stringify(carrito));
+  } catch (e) {
+    // almacenamiento no disponible: seguimos sin guardar
+  }
+}
+
+function guardarDatosCliente() {
+  try {
+    const inputNombre = document.getElementById("nombre");
+    const inputDireccion = document.getElementById("direccion");
+    const inputEntrecalles = document.getElementById("entrecalles");
+    localStorage.setItem(LS_CLIENTE, JSON.stringify({
+      nombre: inputNombre ? inputNombre.value : "",
+      direccion: inputDireccion ? inputDireccion.value : "",
+      entrecalles: inputEntrecalles ? inputEntrecalles.value : ""
+    }));
+  } catch (e) {
+    // almacenamiento no disponible
+  }
+}
+
+function cargarEstadoGuardado() {
+  try {
+    const carritoGuardado = localStorage.getItem(LS_CARRITO);
+    if (carritoGuardado) {
+      const parseado = JSON.parse(carritoGuardado);
+      if (Array.isArray(parseado) && parseado.length > 0) {
+        carrito = parseado;
+        mostrarToast("Recuperamos tu pedido pendiente 🍔", "burger");
+      }
+    }
+    const clienteGuardado = localStorage.getItem(LS_CLIENTE);
+    if (clienteGuardado) {
+      const datos = JSON.parse(clienteGuardado);
+      const inputNombre = document.getElementById("nombre");
+      const inputDireccion = document.getElementById("direccion");
+      const inputEntrecalles = document.getElementById("entrecalles");
+      if (inputNombre && datos.nombre) inputNombre.value = datos.nombre;
+      if (inputDireccion && datos.direccion) inputDireccion.value = datos.direccion;
+      if (inputEntrecalles && datos.entrecalles) inputEntrecalles.value = datos.entrecalles;
+    }
+  } catch (e) {
+    // datos corruptos: arrancamos limpio
+  }
+}
 
 // -------------------------------------------------------------
 // SISTEMA DE TOASTS FLUIDOS (Inspirado en Sonner / Emil Kowalski)
@@ -74,16 +130,26 @@ function actualizarPrecioCard(selectElement) {
 }
 
 // -------------------------------------------------------------
+// CHIPS DE PAN (Botones pastilla: Papa / Brioche / Parmesano)
+// -------------------------------------------------------------
+function elegirPan(boton) {
+  const grupo = boton.closest(".chips-pan");
+  if (!grupo) return;
+  grupo.querySelectorAll(".chip-pan").forEach(chip => chip.classList.remove("activo"));
+  boton.classList.add("activo");
+}
+
+// -------------------------------------------------------------
 // AGREGAR HAMBURGUESAS AL PEDIDO
 // -------------------------------------------------------------
 function agregarAlCarrito(boton, nombreHamburguesa) {
   const card = boton.closest(".product-card");
   const selectVariante = card.querySelector(".select-variante");
-  const selectPan = card.querySelector(".select-pan");
+  const chipPan = card.querySelector(".chip-pan.activo");
 
   const precio = parseInt(selectVariante.value, 10);
   const tamaño = selectVariante.options[selectVariante.selectedIndex].getAttribute("data-nombre");
-  const pan = selectPan.value;
+  const pan = chipPan ? chipPan.getAttribute("data-pan") : "Pan de Papa";
 
   const producto = {
     id: Date.now() + Math.random(),
@@ -256,6 +322,10 @@ function actualizarCarrito() {
     listaCarrito.innerHTML = `<p style="text-align: center; color: #6b7280; padding: 24px 0;">No has agregado ningún producto aún.</p>`;
     totalPrecio.textContent = "0";
     if (lineaRecargo) lineaRecargo.style.display = "none";
+    totalActualPedido = 0;
+    actualizarBadgesPedido();
+    actualizarVueltoEnVivo();
+    guardarCarrito();
     actualizarBotonMercadoPago(0);
     return;
   }
@@ -311,7 +381,73 @@ function actualizarCarrito() {
 
   listaCarrito.innerHTML = html;
   totalPrecio.textContent = totalFinal.toLocaleString("es-AR");
+  totalActualPedido = totalFinal;
   actualizarBotonMercadoPago(totalFinal);
+  actualizarBadgesPedido();
+  actualizarVueltoEnVivo();
+  guardarCarrito();
+}
+
+// -------------------------------------------------------------
+// BADGE "X EN PEDIDO" EN LAS TARJETAS DEL MENÚ
+// -------------------------------------------------------------
+function actualizarBadgesPedido() {
+  document.querySelectorAll(".product-card").forEach(card => {
+    const nombreCard = ((card.querySelector("h3") || {}).textContent || "").trim();
+    const wrapper = card.querySelector(".product-img-wrapper");
+    if (!wrapper) return;
+    if (!card.querySelector(".badge-en-pedido")) {
+      const nuevo = document.createElement("div");
+      nuevo.className = "badge-en-pedido";
+      wrapper.appendChild(nuevo);
+    }
+    const badge = card.querySelector(".badge-en-pedido");
+    let enPedido = 0;
+    carrito.forEach(item => {
+      if (item.nombre && item.nombre.trim().toUpperCase() === nombreCard.toUpperCase()) {
+        enPedido += (item.cantidad || 1);
+      }
+    });
+    if (enPedido > 0) {
+      badge.textContent = `${enPedido} en tu pedido`;
+      badge.classList.add("visible");
+    } else {
+      badge.classList.remove("visible");
+    }
+  });
+}
+
+// -------------------------------------------------------------
+// VUELTO EN VIVO (etiqueta verde mientras escribís cuánto pagás)
+// -------------------------------------------------------------
+function actualizarVueltoEnVivo() {
+  const feedback = document.getElementById("vuelto-feedback");
+  const inputPagoCon = document.getElementById("pago-con");
+  const metodoPagoSelect = document.getElementById("metodo-pago");
+  if (!feedback || !inputPagoCon) return;
+
+  const metodoPago = metodoPagoSelect ? metodoPagoSelect.value : "Efectivo";
+  if (metodoPago !== "Efectivo" || inputPagoCon.value === "" || totalActualPedido <= 0) {
+    feedback.textContent = "";
+    return;
+  }
+
+  const pagoCon = parseFloat(inputPagoCon.value);
+  if (isNaN(pagoCon) || pagoCon <= 0) {
+    feedback.textContent = "";
+    return;
+  }
+
+  const vuelto = pagoCon - totalActualPedido;
+  if (vuelto >= 0) {
+    feedback.textContent = `💵 Tu vuelto será de $${vuelto.toLocaleString("es-AR")}`;
+    feedback.classList.remove("vuelto-falta");
+    feedback.classList.add("vuelto-ok");
+  } else {
+    feedback.textContent = `⚠️ Te faltan $${Math.abs(vuelto).toLocaleString("es-AR")} para cubrir el total`;
+    feedback.classList.remove("vuelto-ok");
+    feedback.classList.add("vuelto-falta");
+  }
 }
 
 // -------------------------------------------------------------
@@ -321,17 +457,44 @@ function filtrarCategoria(categoria, boton) {
   const botones = document.querySelectorAll(".btn-categoria");
   botones.forEach(b => b.classList.remove("active"));
   boton.classList.add("active");
+  categoriaActiva = categoria;
+  aplicarFiltrosMenu();
+}
 
-  const productos = document.querySelectorAll(".product-card");
-  productos.forEach(p => {
-    if (categoria === "todas" || p.getAttribute("data-category") === categoria) {
+// -------------------------------------------------------------
+// BUSCADOR EN TIEMPO REAL (combina categoría activa + texto)
+// -------------------------------------------------------------
+function filtrarBusqueda(query) {
+  aplicarFiltrosMenu(query);
+}
+
+function normalizarTexto(texto) {
+  return (texto || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function aplicarFiltrosMenu(query) {
+  const inputBuscador = document.getElementById("buscador");
+  const consulta = normalizarTexto(typeof query === "string" ? query : (inputBuscador ? inputBuscador.value : ""));
+  let visibles = 0;
+
+  document.querySelectorAll(".product-card").forEach(p => {
+    const enCategoria = categoriaActiva === "todas" || p.getAttribute("data-category") === categoriaActiva;
+    const textoCard = normalizarTexto(p.textContent);
+    const coincide = !consulta || textoCard.includes(consulta);
+
+    if (enCategoria && coincide) {
       p.style.display = "flex";
-      p.style.opacity = "1";
-      p.style.transform = "scale(1)";
+      visibles++;
     } else {
       p.style.display = "none";
     }
   });
+
+  const vacio = document.getElementById("sin-resultados");
+  if (vacio) vacio.style.display = visibles === 0 ? "block" : "none";
 }
 
 // -------------------------------------------------------------
@@ -480,9 +643,84 @@ function cerrarModal() {
 
 function confirmarYEnviarWhatsApp() {
   cerrarModal();
+  cerrarCarrito();
   const numeroTelefono = "5491125645240";
   const url = `https://api.whatsapp.com/send?phone=${numeroTelefono}&text=${encodeURIComponent(mensajeWhatsAppGenerado)}`;
+  // Confeti de celebración (no bloqueante, el popup abre en el mismo gesto)
+  lanzarConfeti();
   window.open(url, "_blank");
+}
+
+// -------------------------------------------------------------
+// CONFETI SUTIL AL CONFIRMAR PEDIDO (canvas liviano, colores de marca)
+// -------------------------------------------------------------
+function lanzarConfeti() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return; // respecto a usuarios con movimiento reducido
+  }
+  const canvas = document.getElementById("confeti-canvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = window.innerHeight * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  canvas.style.display = "block";
+
+  const colores = ["#ea580c", "#f59e0b", "#dc2626", "#25d366", "#ffffff"];
+  const particulas = [];
+  const total = 140;
+  for (let i = 0; i < total; i++) {
+    particulas.push({
+      x: Math.random() * window.innerWidth,
+      y: -20 - Math.random() * window.innerHeight * 0.3,
+      w: 6 + Math.random() * 5,
+      h: 9 + Math.random() * 7,
+      vy: 2.2 + Math.random() * 2.8,
+      vx: -1.4 + Math.random() * 2.8,
+      rot: Math.random() * Math.PI * 2,
+      vr: -0.12 + Math.random() * 0.24,
+      color: colores[Math.floor(Math.random() * colores.length)],
+      delay: Math.random() * 24
+    });
+  }
+
+  const duracionMs = 2200;
+  const inicio = performance.now();
+
+  function pintarFrame(ahora) {
+    const t = ahora - inicio;
+    const progreso = t / duracionMs;
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    const desvanecido = progreso > 0.7 ? 1 - (progreso - 0.7) / 0.3 : 1;
+
+    particulas.forEach(p => {
+      if (p.delay > 0) {
+        p.delay--;
+        return;
+      }
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.02;
+      p.rot += p.vr;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.globalAlpha = Math.max(0, desvanecido);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+
+    if (progreso < 1) {
+      requestAnimationFrame(pintarFrame);
+    } else {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      canvas.style.display = "none";
+    }
+  }
+
+  requestAnimationFrame(pintarFrame);
 }
 
 function mostrarInfoTransferencia() {
@@ -516,11 +754,35 @@ function actualizarBotonMercadoPago(monto) {
   btnMP.href = "https://link.mercadopago.com.ar/tangofastfood";
 }
 
+// -------------------------------------------------------------
+// DRAWER LATERAL DEL CARRITO (slide-over con backdrop)
+// -------------------------------------------------------------
+function abrirCarrito() {
+  const drawer = document.getElementById("seccion-carrito");
+  const backdrop = document.getElementById("drawer-backdrop");
+  if (!drawer || !backdrop) return;
+
+  document.body.style.overflow = "hidden"; // bloquea el scroll de fondo
+  backdrop.classList.add("visible");
+  drawer.classList.add("abierto");
+
+  const btnCerrar = document.getElementById("btn-cerrar-carrito");
+  if (btnCerrar) btnCerrar.focus();
+}
+
+function cerrarCarrito() {
+  const drawer = document.getElementById("seccion-carrito");
+  const backdrop = document.getElementById("drawer-backdrop");
+  if (!drawer || !backdrop) return;
+
+  backdrop.classList.remove("visible");
+  drawer.classList.remove("abierto");
+  document.body.style.overflow = "";
+}
+
+// Alias de compatibilidad (otros flujos ya lo llamaban)
 function irAlCarrito() {
-  const seccion = document.getElementById("seccion-carrito");
-  if (seccion) {
-    seccion.scrollIntoView({ behavior: "smooth" });
-  }
+  abrirCarrito();
 }
 
 // -------------------------------------------------------------
@@ -533,4 +795,23 @@ window.onload = function() {
   inputs.forEach(input => {
     input.addEventListener("input", () => input.classList.remove("is-invalid"));
   });
+
+  // Guardar datos del cliente mientras se escriben
+  ["nombre", "direccion", "entrecalles"].forEach(id => {
+    const input = document.getElementById(id);
+    if (input) input.addEventListener("input", guardarDatosCliente);
+  });
+
+  // Vuelto en vivo
+  const inputPagoCon = document.getElementById("pago-con");
+  if (inputPagoCon) inputPagoCon.addEventListener("input", actualizarVueltoEnVivo);
+
+  // Cerrar el drawer con tecla Esc
+  window.addEventListener("keydown", ev => {
+    if (ev.key === "Escape") cerrarCarrito();
+  });
+
+  // Restaurar carrito y datos guardados
+  cargarEstadoGuardado();
+  actualizarCarrito();
 };

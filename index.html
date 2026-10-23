@@ -37,6 +37,12 @@
         <span class="logo-sub">FAST FOOD</span>
       </div>
     </div>
+    <!-- BADGES DE CONFIANZA (Social Proof) -->
+    <div class="badges-confianza" aria-label="Sellos de confianza">
+      <span class="sello-confianza">🥩 <strong>100% Carne Smash</strong></span>
+      <span class="sello-confianza">⚡ <strong>Envíos en 30-45 min</strong></span>
+      <span class="sello-confianza">💳 <strong>Mercado Pago &amp; Efectivo</strong></span>
+    </div>
   </header>
 
   <!-- BANNER INFORMATIVO (Pan & Papas) -->
@@ -55,6 +61,12 @@
 
   <main class="main-container">
     <h2 class="titulo-seccion">NUESTRO MENÚ</h2>
+
+    <!-- BUSCADOR EN TIEMPO REAL -->
+    <div class="buscador-container">
+      <span class="buscador-icono" aria-hidden="true">🔍</span>
+      <input type="search" id="buscador" class="buscador-input" placeholder="Buscar por nombre o ingrediente..." autocomplete="off" oninput="filtrarBusqueda(this.value)">
+    </div>
 
     <!-- BOTONES DE CATEGORÍAS (PILL TABS) -->
     <div class="categorias-container">
@@ -92,12 +104,10 @@
             </div>
             <div class="form-group-custom">
               <label>Pan a elección:</label>
-              <div class="select-wrapper">
-                <select class="select-pan">
-                  <option value="Pan de Papa">Pan de Papa</option>
-                  <option value="Pan Brioche">Pan Brioche</option>
-                  <option value="Pan Parmesano">Pan Parmesano</option>
-                </select>
+              <div class="chips-pan" role="group" aria-label="Pan a elección">
+                <button type="button" class="chip-pan activo" data-pan="Pan de Papa" onclick="elegirPan(this)">Papa</button>
+                <button type="button" class="chip-pan" data-pan="Pan Brioche" onclick="elegirPan(this)">Brioche</button>
+                <button type="button" class="chip-pan" data-pan="Pan Parmesano" onclick="elegirPan(this)">Parmesano</button>
               </div>
             </div>
           </div>
@@ -131,12 +141,10 @@
             </div>
             <div class="form-group-custom">
               <label>Pan a elección:</label>
-              <div class="select-wrapper">
-                <select class="select-pan">
-                  <option value="Pan de Papa">Pan de Papa</option>
-                  <option value="Pan Brioche">Pan Brioche</option>
-                  <option value="Pan Parmesano">Pan Parmesano</option>
-                </select>
+              <div class="chips-pan" role="group" aria-label="Pan a elección">
+                <button type="button" class="chip-pan activo" data-pan="Pan de Papa" onclick="elegirPan(this)">Papa</button>
+                <button type="button" class="chip-pan" data-pan="Pan Brioche" onclick="elegirPan(this)">Brioche</button>
+                <button type="button" class="chip-pan" data-pan="Pan Parmesano" onclick="elegirPan(this)">Parmesano</button>
               </div>
             </div>
           </div>
@@ -170,12 +178,10 @@
             </div>
             <div class="form-group-custom">
               <label>Pan a elección:</label>
-              <div class="select-wrapper">
-                <select class="select-pan">
-                  <option value="Pan de Papa">Pan de Papa</option>
-                  <option value="Pan Brioche">Pan Brioche</option>
-                  <option value="Pan Parmesano">Pan Parmesano</option>
-                </select>
+              <div class="chips-pan" role="group" aria-label="Pan a elección">
+                <button type="button" class="chip-pan activo" data-pan="Pan de Papa" onclick="elegirPan(this)">Papa</button>
+                <button type="button" class="chip-pan" data-pan="Pan Brioche" onclick="elegirPan(this)">Brioche</button>
+                <button type="button" class="chip-pan" data-pan="Pan Parmesano" onclick="elegirPan(this)">Parmesano</button>
               </div>
             </div>
           </div>
@@ -209,12 +215,10 @@
             </div>
             <div class="form-group-custom">
               <label>Pan a elección:</label>
-              <div class="select-wrapper">
-                <select class="select-pan">
-                  <option value="Pan de Papa">Pan de Papa</option>
-                  <option value="Pan Brioche">Pan Brioche</option>
-                  <option value="Pan Parmesano">Pan Parmesano</option>
-                </select>
+              <div class="chips-pan" role="group" aria-label="Pan a elección">
+                <button type="button" class="chip-pan activo" data-pan="Pan de Papa" onclick="elegirPan(this)">Papa</button>
+                <button type="button" class="chip-pan" data-pan="Pan Brioche" onclick="elegirPan(this)">Brioche</button>
+                <button type="button" class="chip-pan" data-pan="Pan Parmesano" onclick="elegirPan(this)">Parmesano</button>
               </div>
             </div>
           </div>
@@ -248,12 +252,10 @@
             </div>
             <div class="form-group-custom">
               <label>Pan a elección:</label>
-              <div class="select-wrapper">
-                <select class="select-pan">
-                  <option value="Pan de Papa">Pan de Papa</option>
-                  <option value="Pan Brioche">Pan Brioche</option>
-                  <option value="Pan Parmesano">Pan Parmesano</option>
-                </select>
+              <div class="chips-pan" role="group" aria-label="Pan a elección">
+                <button type="button" class="chip-pan activo" data-pan="Pan de Papa" onclick="elegirPan(this)">Papa</button>
+                <button type="button" class="chip-pan" data-pan="Pan Brioche" onclick="elegirPan(this)">Brioche</button>
+                <button type="button" class="chip-pan" data-pan="Pan Parmesano" onclick="elegirPan(this)">Parmesano</button>
               </div>
             </div>
           </div>
@@ -287,12 +289,10 @@
             </div>
             <div class="form-group-custom">
               <label>Pan a elección:</label>
-              <div class="select-wrapper">
-                <select class="select-pan">
-                  <option value="Pan de Papa">Pan de Papa</option>
-                  <option value="Pan Brioche">Pan Brioche</option>
-                  <option value="Pan Parmesano">Pan Parmesano</option>
-                </select>
+              <div class="chips-pan" role="group" aria-label="Pan a elección">
+                <button type="button" class="chip-pan activo" data-pan="Pan de Papa" onclick="elegirPan(this)">Papa</button>
+                <button type="button" class="chip-pan" data-pan="Pan Brioche" onclick="elegirPan(this)">Brioche</button>
+                <button type="button" class="chip-pan" data-pan="Pan Parmesano" onclick="elegirPan(this)">Parmesano</button>
               </div>
             </div>
           </div>
@@ -326,12 +326,10 @@
             </div>
             <div class="form-group-custom">
               <label>Pan a elección:</label>
-              <div class="select-wrapper">
-                <select class="select-pan">
-                  <option value="Pan de Papa">Pan de Papa</option>
-                  <option value="Pan Brioche">Pan Brioche</option>
-                  <option value="Pan Parmesano">Pan Parmesano</option>
-                </select>
+              <div class="chips-pan" role="group" aria-label="Pan a elección">
+                <button type="button" class="chip-pan activo" data-pan="Pan de Papa" onclick="elegirPan(this)">Papa</button>
+                <button type="button" class="chip-pan" data-pan="Pan Brioche" onclick="elegirPan(this)">Brioche</button>
+                <button type="button" class="chip-pan" data-pan="Pan Parmesano" onclick="elegirPan(this)">Parmesano</button>
               </div>
             </div>
           </div>
@@ -497,12 +495,18 @@
       </article>
 
     </div>
+
+    <p id="sin-resultados" class="sin-resultados" style="display: none;">No encontramos nada con esa búsqueda 🤔 Probá con otro nombre.</p>
   </main>
 
-  <!-- SECCIÓN CARRITO & FORMULARIO DE CHECKOUT -->
-  <section class="carrito-section" id="seccion-carrito">
+  <!-- DIBUJO DE FONDO DEL DRAWER DEL CARRITO -->
+  <div id="drawer-backdrop" class="drawer-backdrop" onclick="cerrarCarrito()" aria-hidden="true"></div>
+
+  <!-- SECCIÓN CARRITO & FORMULARIO DE CHECKOUT (Drawer lateral deslizable) -->
+  <section class="carrito-section" id="seccion-carrito" role="dialog" aria-modal="true" aria-label="Tu pedido">
     <div class="carrito-header">
       <h2>🛒 TU PEDIDO</h2>
+      <button type="button" id="btn-cerrar-carrito" class="btn-cerrar-carrito" onclick="cerrarCarrito()" aria-label="Cerrar carrito">&times;</button>
     </div>
 
     <div id="lista-carrito">
@@ -557,6 +561,7 @@
       <div id="campo-vuelto" class="input-field-group">
         <label for="pago-con">¿Con cuánto vas a abonar? (Para llevar vuelto):</label>
         <input type="number" id="pago-con" class="input-control" placeholder="Ej: 20000">
+        <div id="vuelto-feedback" class="vuelto-feedback" aria-live="polite"></div>
       </div>
 
       <!-- INFO TRANSFERENCIA & MERCADO PAGO -->
@@ -608,9 +613,8 @@
     </div>
   </footer>
 
-<<<<<<< HEAD
   <!-- BOTÓN FLOTANTE DEL CARRITO (FAB) -->
-  <div id="btn-carrito-flotante" class="fab-carrito" onclick="irAlCarrito()">
+  <div id="btn-carrito-flotante" class="fab-carrito" onclick="abrirCarrito()">
     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="8" cy="21" r="1"/>
       <circle cx="19" cy="21" r="1"/>
@@ -618,16 +622,6 @@
     </svg>
     <span id="badge-contador" class="fab-badge">0</span>
   </div>
-=======
-  <!-- BOTÓN FLOTANTE DEL CARRITO -->
-  <div id="btn-carrito-flotante" onclick="document.querySelector('.carrito-section').scrollIntoView({ behavior: 'smooth' });" style="position: fixed; bottom: 20px; right: 20px; background: #e63946; color: white; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; z-index: 1000;">
-  
-  <!-- Ícono de Flaticon -->
-  <img src="IMG/carrito.png" alt="Carrito de compras" style="width: 26px; height: 26px; object-fit: contain;">
-  
-  <span id="badge-contador" style="position: absolute; top: -5px; right: -5px; background: #fff; color: #e63946; font-size: 12px; font-weight: bold; padding: 3px 7px; border-radius: 50%; border: 2px solid #f7f5f5;">0</span>
-</div>
->>>>>>> 5285e6ca504d3e304ded37c5997fc71cedf7646d
 
   <!-- MODAL DE RESUMEN DE PEDIDO -->
   <div id="modal-resumen" class="modal-overlay">
@@ -654,6 +648,9 @@
       </div>
     </div>
   </div>
+
+  <!-- CONFETI AL CONFIRMAR EL PEDIDO -->
+  <canvas id="confeti-canvas" class="confeti-canvas" aria-hidden="true"></canvas>
 
   <!-- CONTENEDOR DE TOASTS (Sonner style de Emil Kowalski) -->
   <div id="toast-container"></div>
