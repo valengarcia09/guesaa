@@ -1,57 +1,93 @@
-// Arreglo para almacenar los productos agregados al pedido
+// ==========================================================================
+// TANGO FAST FOOD - SCRIPT OFICIAL (INTERACCIONES & DESIGN CRAFT)
+// ==========================================================================
+
 let carrito = [];
 let mensajeWhatsAppGenerado = "";
+let adicionalPendiente = null;
 
-// Función para mostrar alerta personalizada de producto agregado
-function mostrarAlertaAgregado(nombreProducto) {
-  alert(`¡${nombreProducto} agregado al pedido con éxito! 🛒`);
+// -------------------------------------------------------------
+// SISTEMA DE TOASTS FLUIDOS (Inspirado en Sonner / Emil Kowalski)
+// -------------------------------------------------------------
+function mostrarToast(mensaje, tipo = "success") {
+  const container = document.getElementById("toast-container");
+  if (!container) return;
+
+  const toast = document.createElement("div");
+  toast.className = `toast ${tipo === "warning" ? "toast-warning" : ""}`;
+
+  let icono = "✅";
+  if (tipo === "warning") icono = "⚠️";
+  if (tipo === "burger") icono = "🍔";
+  if (tipo === "fries") icono = "🍟";
+
+  toast.innerHTML = `<span>${icono}</span> <span>${mensaje}</span>`;
+  container.appendChild(toast);
+
+  // Auto-eliminar después de 2.6 segundos con animación suave
+  setTimeout(() => {
+    toast.classList.add("toast-exit");
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.parentNode.removeChild(toast);
+      }
+    }, 220);
+  }, 2600);
 }
 
 // -------------------------------------------------------------
-// NUEVA FUNCIÓN: VERIFICAR ESTADO DEL LOCAL (Vie a Dom 19hs a 00hs)
+// VERIFICAR ESTADO DEL LOCAL (Viernes a Domingo de 19:00 a 00:00)
 // -------------------------------------------------------------
 function verificarEstadoLocal() {
   const contenedor = document.getElementById("estado-local");
-  if (!contenedor) return;
+  const texto = document.getElementById("texto-estado");
+  if (!contenedor || !texto) return;
 
   const ahora = new Date();
   const dia = ahora.getDay(); // 0: Domingo, 5: Viernes, 6: Sábado
   const hora = ahora.getHours();
 
-  // Viernes(5), Sábado(6) y Domingo(0) de 19:00 a 23:59hs
+  // Viernes(5), Sábado(6) y Domingo(0) de 19:00 a 23:59 hs
   const esDiaPermitido = (dia === 5 || dia === 6 || dia === 0);
   const esHoraPermitida = (hora >= 19 && hora < 24);
 
   if (esDiaPermitido && esHoraPermitida) {
-    contenedor.innerHTML = "🟢 <b>LOCAL ABIERTO</b> (Horario: Vie a Dom 19:00 a 00:00 hs)";
-    contenedor.style.background = "#d4edda";
-    contenedor.style.color = "#155724";
-    contenedor.style.border = "1px solid #c3e6cb";
+    contenedor.className = "estado-bar abierto";
+    texto.innerHTML = "LOCAL ABIERTO &bull; Horario: Vie a Dom 19:00 a 00:00 hs";
   } else {
-    contenedor.innerHTML = "🔴 <b>LOCAL CERRADO</b> (Horario: Vie a Dom 19:00 a 00:00 hs)";
-    contenedor.style.background = "#f8d7da";
-    contenedor.style.color = "#721c24";
-    contenedor.style.border = "1px solid #f5c6cb";
+    contenedor.className = "estado-bar cerrado";
+    texto.innerHTML = "LOCAL CERRADO &bull; Horario: Vie a Dom 19:00 a 00:00 hs";
   }
 }
 
-// 1. AGREGAR HAMBURGUESAS AL CARRITO
+// -------------------------------------------------------------
+// ACTUALIZAR PRECIO VISIBLE EN LA TARJETA AL CAMBIAR SELECT
+// -------------------------------------------------------------
+function actualizarPrecioCard(selectElement) {
+  const card = selectElement.closest(".product-card");
+  if (!card) return;
+  const precioTag = card.querySelector(".precio-tag");
+  const precio = parseInt(selectElement.value, 10);
+  if (precioTag && !isNaN(precio)) {
+    precioTag.textContent = `$${precio.toLocaleString("es-AR")}`;
+  }
+}
+
+// -------------------------------------------------------------
+// AGREGAR HAMBURGUESAS AL PEDIDO
+// -------------------------------------------------------------
 function agregarAlCarrito(boton, nombreHamburguesa) {
-  // Obtener la tarjeta del producto
-  const card = boton.closest('.product-card');
-  
-  // Obtener tamaño/precio y tipo de pan
-  const selectVariante = card.querySelector('.select-variante');
-  const selectPan = card.querySelector('.select-pan');
-  
-  const precio = parseInt(selectVariante.value);
-  const tamaño = selectVariante.options[selectVariante.selectedIndex].getAttribute('data-nombre');
+  const card = boton.closest(".product-card");
+  const selectVariante = card.querySelector(".select-variante");
+  const selectPan = card.querySelector(".select-pan");
+
+  const precio = parseInt(selectVariante.value, 10);
+  const tamaño = selectVariante.options[selectVariante.selectedIndex].getAttribute("data-nombre");
   const pan = selectPan.value;
-  
-  // Construir el objeto hamburguesa
+
   const producto = {
-    id: Date.now(), // ID único para identificar cada hamburguesa
-    tipo: 'burgers',
+    id: Date.now() + Math.random(),
+    tipo: "burgers",
     nombre: nombreHamburguesa,
     detalle: `${tamaño} | ${pan}`,
     precio: precio,
@@ -60,105 +96,166 @@ function agregarAlCarrito(boton, nombreHamburguesa) {
   };
 
   carrito.push(producto);
-  mostrarAlertaAgregado(`${nombreHamburguesa} (${tamaño})`);
+  mostrarToast(`${nombreHamburguesa} (${tamaño}) agregada al pedido`, "burger");
+  animarBadgeCarrito();
   actualizarCarrito();
 }
 
-// 2. AGREGAR GUARNICIONES (Papas, etc.)
+// -------------------------------------------------------------
+// AGREGAR GUARNICIONES (Papas, etc.)
+// -------------------------------------------------------------
 function agregarDirecto(nombreProducto, precio) {
   const producto = {
-    id: Date.now(),
-    tipo: 'guarniciones',
+    id: Date.now() + Math.random(),
+    tipo: "guarniciones",
     nombre: nombreProducto,
-    detalle: 'Guarnición individual',
-    precio: parseInt(precio),
+    detalle: "Porción individual",
+    precio: parseInt(precio, 10),
     cantidad: 1,
     adicionales: []
   };
 
   carrito.push(producto);
-  mostrarAlertaAgregado(nombreProducto);
+  mostrarToast(`${nombreProducto} agregada`, "fries");
+  animarBadgeCarrito();
   actualizarCarrito();
 }
 
-// 3. AGREGAR ADICIONALES (Con validación y selección de hamburguesa)
+// -------------------------------------------------------------
+// AGREGAR ADICIONALES (Con Modal Estilizado si hay varias burgers)
+// -------------------------------------------------------------
 function agregarAdicional(nombreAdicional, precioAdicional) {
-  // Filtrar todas las hamburguesas en el carrito
-  const hamburguesasEnCarrito = carrito.filter(p => p.tipo === 'burgers');
+  const hamburguesasEnCarrito = carrito.filter(p => p.tipo === "burgers");
 
-  // Regla 1: Si no hay hamburguesas, mostrar error
+  // Regla 1: Si no hay hamburguesas, avisar
   if (hamburguesasEnCarrito.length === 0) {
-    alert("Elija una hamburguesa a la cual agregar el adicional.");
+    mostrarToast("Elegí primero una hamburguesa para sumarle este adicional", "warning");
+    irAlCarrito();
     return;
   }
 
-  let hamburguesaDestino = null;
-
-  // Regla 2: Si hay solo una hamburguesa, se le asigna directamente
+  // Regla 2: Si hay solo una, se asigna directamente
   if (hamburguesasEnCarrito.length === 1) {
-    hamburguesaDestino = hamburguesasEnCarrito[0];
-  } else {
-    // Regla 3: Si hay varias, preguntar a cuál agregarle el adicional
-    let opciones = "Tienes varias hamburguesas en tu pedido. ¿A cuál le agregamos este adicional?\n\n";
-    hamburguesasEnCarrito.forEach((h, index) => {
-      opciones += `${index + 1}. ${h.nombre} (${h.detalle})\n`;
+    const destino = hamburguesasEnCarrito[0];
+    destino.adicionales.push({
+      nombre: nombreAdicional,
+      precio: parseInt(precioAdicional, 10)
     });
-
-    const respuesta = prompt(opciones + "\nEscribe el número correspondiente:");
-    const indiceElegido = parseInt(respuesta) - 1;
-
-    if (!isNaN(indiceElegido) && hamburguesasEnCarrito[indiceElegido]) {
-      hamburguesaDestino = hamburguesasEnCarrito[indiceElegido];
-    } else {
-      alert("Selección no válida. El adicional no fue agregado.");
-      return;
-    }
+    mostrarToast(`Extra ${nombreAdicional} sumado a ${destino.nombre}`, "success");
+    animarBadgeCarrito();
+    actualizarCarrito();
+    return;
   }
 
-  // Sumar adicional a la hamburguesa elegida
-  hamburguesaDestino.adicionales.push({
+  // Regla 3: Si hay más de una, abrir modal táctil para elegir cuál
+  adicionalPendiente = {
     nombre: nombreAdicional,
-    precio: parseInt(precioAdicional)
+    precio: parseInt(precioAdicional, 10)
+  };
+
+  const modalBurger = document.getElementById("modal-seleccionar-burger");
+  const listaOpciones = document.getElementById("lista-opciones-burger");
+  const tituloModal = document.getElementById("titulo-modal-adicional");
+
+  if (!modalBurger || !listaOpciones) return;
+
+  tituloModal.textContent = `Sumar ${nombreAdicional} (+$${parseInt(precioAdicional, 10).toLocaleString("es-AR")})`;
+  listaOpciones.innerHTML = "";
+
+  hamburguesasEnCarrito.forEach((burger, index) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "btn-elegir-burger";
+    btn.innerHTML = `
+      <div>
+        <strong>🍔 ${burger.nombre}</strong>
+        <div style="font-size: 0.8rem; color: #6b7280; font-weight: normal;">${burger.detalle}</div>
+      </div>
+      <span style="color: #2b543b; font-weight: 800;">Elegir &rarr;</span>
+    `;
+    btn.onclick = () => asignarAdicionalAHamburguesa(burger.id);
+    listaOpciones.appendChild(btn);
   });
 
-  mostrarAlertaAgregado(`${nombreAdicional} para ${hamburguesaDestino.nombre}`);
-  actualizarCarrito();
+  modalBurger.style.display = "flex";
 }
 
-// NUEVA FUNCIÓN: CAMBIAR CANTIDAD (+ / -)
+function asignarAdicionalAHamburguesa(burgerId) {
+  if (!adicionalPendiente) return;
+  const burger = carrito.find(item => item.id === burgerId);
+  if (burger) {
+    burger.adicionales.push({
+      nombre: adicionalPendiente.nombre,
+      precio: adicionalPendiente.precio
+    });
+    mostrarToast(`Extra ${adicionalPendiente.nombre} sumado a ${burger.nombre}`, "success");
+    animarBadgeCarrito();
+    actualizarCarrito();
+  }
+  cerrarModalBurger();
+}
+
+function cerrarModalBurger() {
+  const modalBurger = document.getElementById("modal-seleccionar-burger");
+  if (modalBurger) modalBurger.style.display = "none";
+  adicionalPendiente = null;
+}
+
+// -------------------------------------------------------------
+// CAMBIAR CANTIDAD (+ / -) Y ELIMINAR
+// -------------------------------------------------------------
 function cambiarCantidad(index, cambio) {
   if (carrito[index]) {
     carrito[index].cantidad += cambio;
     if (carrito[index].cantidad <= 0) {
       carrito.splice(index, 1);
     }
+    animarBadgeCarrito();
     actualizarCarrito();
   }
 }
 
-// 4. ELIMINAR UN ELEMENTO DEL CARRITO
 function eliminarDelCarrito(index) {
-  carrito.splice(index, 1);
-  actualizarCarrito();
+  if (carrito[index]) {
+    const itemEliminado = carrito[index];
+    carrito.splice(index, 1);
+    mostrarToast(`${itemEliminado.nombre} eliminado del pedido`, "warning");
+    animarBadgeCarrito();
+    actualizarCarrito();
+  }
 }
 
-// 5. ACTUALIZAR LA VISTA DEL CARRITO, BOTÓN FLOTANTE Y EL TOTAL
+function animarBadgeCarrito() {
+  const badge = document.getElementById("badge-contador");
+  if (badge) {
+    badge.classList.remove("bump");
+    void badge.offsetWidth; // Trigger reflow para reiniciar la animación
+    badge.classList.add("bump");
+  }
+}
+
+// -------------------------------------------------------------
+// ACTUALIZAR LA VISTA DEL CARRITO Y TOTALES
+// -------------------------------------------------------------
 function actualizarCarrito() {
   const listaCarrito = document.getElementById("lista-carrito");
   const totalPrecio = document.getElementById("total-precio");
   const metodoPagoSelect = document.getElementById("metodo-pago");
   const badgeContador = document.getElementById("badge-contador");
+  const lineaRecargo = document.getElementById("linea-recargo");
+  const montoRecargoSpan = document.getElementById("monto-recargo");
 
   if (!listaCarrito || !totalPrecio) return;
 
-  // Actualizar burbuja flotante de cantidad
+  // Actualizar contador del badge flotante
   let totalItems = 0;
   carrito.forEach(item => totalItems += (item.cantidad || 1));
   if (badgeContador) badgeContador.textContent = totalItems;
 
   if (carrito.length === 0) {
-    listaCarrito.innerHTML = `<p style="text-align: center; color: #777;">No has agregado ningún producto aún.</p>`;
+    listaCarrito.innerHTML = `<p style="text-align: center; color: #6b7280; padding: 24px 0;">No has agregado ningún producto aún.</p>`;
     totalPrecio.textContent = "0";
+    if (lineaRecargo) lineaRecargo.style.display = "none";
     actualizarBotonMercadoPago(0);
     return;
   }
@@ -168,30 +265,31 @@ function actualizarCarrito() {
 
   carrito.forEach((item, index) => {
     let precioUnitarioTotal = item.precio;
-    let detallesAdicionales = "";
+    let adicionalesHtml = "";
 
     if (item.adicionales && item.adicionales.length > 0) {
       item.adicionales.forEach(a => {
         precioUnitarioTotal += a.precio;
-        detallesAdicionales += `<br> ➕ <i>${a.nombre} (+$${a.precio})</i>`;
+        adicionalesHtml += `<br><span class="item-extra">➕ Extra: ${a.nombre} (+$${a.precio.toLocaleString("es-AR")})</span>`;
       });
     }
 
-    let cantidadItem = item.cantidad || 1;
-    let subtotalItem = precioUnitarioTotal * cantidadItem;
+    const cantidadItem = item.cantidad || 1;
+    const subtotalItem = precioUnitarioTotal * cantidadItem;
     subtotalGeneral += subtotalItem;
 
     html += `
-      <div style="border-bottom: 1px solid #ddd; padding: 10px 0; display: flex; justify-content: space-between; align-items: center;">
-        <div>
-          <strong>${item.nombre}</strong> - $${subtotalItem}<br>
-          <small style="color: #555;">${item.detalle}${detallesAdicionales}</small>
+      <div class="item-carrito-row">
+        <div class="item-info">
+          <span class="item-nombre">${item.nombre}</span>
+          <span class="item-detalle">${item.detalle}${adicionalesHtml}</span>
+          <span style="font-weight: 800; color: #ea580c; font-size: 0.95rem; margin-top: 2px;">$${subtotalItem.toLocaleString("es-AR")}</span>
         </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <button onclick="cambiarCantidad(${index}, -1)" style="background: #e0e0e0; border: none; padding: 4px 10px; border-radius: 4px; font-weight: bold; cursor: pointer;">-</button>
-          <span><b>${cantidadItem}</b></span>
-          <button onclick="cambiarCantidad(${index}, 1)" style="background: #e0e0e0; border: none; padding: 4px 10px; border-radius: 4px; font-weight: bold; cursor: pointer;">+</button>
-          <button onclick="eliminarDelCarrito(${index})" style="background: #ff4d4d; color: white; border: none; padding: 5px 8px; border-radius: 5px; cursor: pointer; margin-left: 5px;">❌</button>
+        <div class="item-controles">
+          <button type="button" class="btn-qty" onclick="cambiarCantidad(${index}, -1)" title="Restar uno">-</button>
+          <span class="item-qty-num">${cantidadItem}</span>
+          <button type="button" class="btn-qty" onclick="cambiarCantidad(${index}, 1)" title="Sumar uno">+</button>
+          <button type="button" class="btn-eliminar" onclick="eliminarDelCarrito(${index})" title="Eliminar del pedido">🗑️</button>
         </div>
       </div>
     `;
@@ -200,39 +298,45 @@ function actualizarCarrito() {
   let totalFinal = subtotalGeneral;
   const esTransferencia = metodoPagoSelect && metodoPagoSelect.value === "Transferencia";
 
-  // Aplicar recargo del 6% si selecciona Transferencia
   if (esTransferencia) {
     const recargo = Math.round(subtotalGeneral * 0.06);
     totalFinal = subtotalGeneral + recargo;
-    html += `
-      <div style="padding: 10px 0; color: #856404; font-weight: bold; border-top: 1px dashed #ccc;">
-        ➕ Recargo por Transferencia/MP (6%): +$${recargo.toLocaleString()}
-      </div>
-    `;
+    if (lineaRecargo && montoRecargoSpan) {
+      lineaRecargo.style.display = "flex";
+      montoRecargoSpan.textContent = `+$${recargo.toLocaleString("es-AR")}`;
+    }
+  } else {
+    if (lineaRecargo) lineaRecargo.style.display = "none";
   }
 
   listaCarrito.innerHTML = html;
-  totalPrecio.textContent = totalFinal.toLocaleString();
-
+  totalPrecio.textContent = totalFinal.toLocaleString("es-AR");
   actualizarBotonMercadoPago(totalFinal);
 }
 
-// 6. FILTRAR CATEGORÍAS DE MENÚ
+// -------------------------------------------------------------
+// FILTRAR CATEGORÍAS CON ANIMACIÓN SUAVE
+// -------------------------------------------------------------
 function filtrarCategoria(categoria, boton) {
-  const botones = document.querySelectorAll('.btn-categoria');
-  botones.forEach(b => b.classList.remove('active'));
-  boton.classList.add('active');
-  const productos = document.querySelectorAll('.product-card');
+  const botones = document.querySelectorAll(".btn-categoria");
+  botones.forEach(b => b.classList.remove("active"));
+  boton.classList.add("active");
+
+  const productos = document.querySelectorAll(".product-card");
   productos.forEach(p => {
-    if (categoria === 'todas' || p.getAttribute('data-category') === categoria) {
-      p.style.display = 'block';
+    if (categoria === "todas" || p.getAttribute("data-category") === categoria) {
+      p.style.display = "flex";
+      p.style.opacity = "1";
+      p.style.transform = "scale(1)";
     } else {
-      p.style.display = 'none';
+      p.style.display = "none";
     }
   });
 }
 
-// 7. PREPARAR Y DESPLEGAR MODAL DE RESUMEN
+// -------------------------------------------------------------
+// CHECKOUT: PREPARAR Y DESPLEGAR MODAL DE RESUMEN
+// -------------------------------------------------------------
 function enviarWhatsApp() {
   const inputNombre = document.getElementById("nombre");
   const inputDireccion = document.getElementById("direccion");
@@ -250,33 +354,42 @@ function enviarWhatsApp() {
 
   let esValido = true;
 
-  // Validación visual en bordes rojos
   if (!nombre) {
-    if (inputNombre) inputNombre.style.border = "2px solid red";
+    if (inputNombre) inputNombre.classList.add("is-invalid");
     esValido = false;
   } else if (inputNombre) {
-    inputNombre.style.border = "1px solid #ccc";
+    inputNombre.classList.remove("is-invalid");
   }
 
   if (!direccion) {
-    if (inputDireccion) inputDireccion.style.border = "2px solid red";
+    if (inputDireccion) inputDireccion.classList.add("is-invalid");
     esValido = false;
   } else if (inputDireccion) {
-    inputDireccion.style.border = "1px solid #ccc";
+    inputDireccion.classList.remove("is-invalid");
   }
 
   if (!esValido) {
-    alert("Por favor, completa los campos marcados en rojo.");
+    mostrarToast("Por favor, completá los campos obligatorios marcados en rojo", "warning");
+    irAlCarrito();
     return;
   }
 
   if (carrito.length === 0) {
-    alert("Tu pedido está vacío. Agrega algún producto primero.");
+    mostrarToast("Tu pedido está vacío. ¡Agregá tus burgers favoritas!", "warning");
     return;
   }
 
   let subtotalGeneral = 0;
-  let resumenHTML = `<p><b>Cliente:</b> ${nombre}</p><p><b>Dirección:</b> ${direccion} ${entrecalles ? '(' + entrecalles + ')' : ''}</p><hr><p><b>Detalle:</b></p><ul>`;
+  let resumenHTML = `
+    <div style="background: #f9fafb; padding: 12px; border-radius: 8px; margin-bottom: 14px; border: 1px solid #e5e7eb;">
+      <p style="margin: 3px 0;"><b>👤 Cliente:</b> ${nombre}</p>
+      <p style="margin: 3px 0;"><b>📍 Dirección:</b> ${direccion} ${entrecalles ? '(' + entrecalles + ')' : ''}</p>
+      <p style="margin: 3px 0;"><b>💳 Pago:</b> ${metodoPago}</p>
+    </div>
+    <p style="margin-bottom: 8px;"><b>🍔 Detalle del Pedido:</b></p>
+    <ul style="padding-left: 18px; margin-bottom: 14px;">
+  `;
+
   let mensaje = `¡Hola Tango Fast Food! Soy *${nombre}* y quiero hacer este pedido:\n\n`;
 
   carrito.forEach((item, i) => {
@@ -286,16 +399,16 @@ function enviarWhatsApp() {
     if (item.adicionales && item.adicionales.length > 0) {
       item.adicionales.forEach(a => {
         precioUnitarioTotal += a.precio;
-        textoAdicionales += `\n     + Extra: ${a.nombre} (+$${a.precio})`;
+        textoAdicionales += `\n     + Extra: ${a.nombre} (+$${a.precio.toLocaleString("es-AR")})`;
       });
     }
 
-    let cantidadItem = item.cantidad || 1;
-    let subtotalItem = precioUnitarioTotal * cantidadItem;
+    const cantidadItem = item.cantidad || 1;
+    const subtotalItem = precioUnitarioTotal * cantidadItem;
     subtotalGeneral += subtotalItem;
 
-    mensaje += `${i + 1}. *${cantidadItem}x ${item.nombre}* ($${subtotalItem})\n   Detalle: ${item.detalle}${textoAdicionales}\n\n`;
-    resumenHTML += `<li>${cantidadItem}x ${item.nombre} - $${subtotalItem}</li>`;
+    mensaje += `${i + 1}. *${cantidadItem}x ${item.nombre}* ($${subtotalItem.toLocaleString("es-AR")})\n   Detalle: ${item.detalle}${textoAdicionales}\n\n`;
+    resumenHTML += `<li style="margin-bottom: 6px;"><b>${cantidadItem}x ${item.nombre}</b> - $${subtotalItem.toLocaleString("es-AR")} <br><small style="color: #6b7280;">${item.detalle}</small></li>`;
   });
 
   resumenHTML += `</ul>`;
@@ -304,20 +417,26 @@ function enviarWhatsApp() {
   if (metodoPago === "Transferencia") {
     const recargo = Math.round(subtotalGeneral * 0.06);
     totalFinal = subtotalGeneral + recargo;
-    mensaje += `*Subtotal:* $${subtotalGeneral}\n`;
-    mensaje += `*Recargo Transferencia (6%):* $${recargo}\n`;
-    resumenHTML += `<p><b>Recargo Transferencia (6%):</b> +$${recargo}</p>`;
+    mensaje += `*Subtotal:* $${subtotalGeneral.toLocaleString("es-AR")}\n`;
+    mensaje += `*Recargo Transferencia (6%):* $${recargo.toLocaleString("es-AR")}\n`;
+    resumenHTML += `<p style="color: #b45309; font-size: 0.9rem;"><b>Recargo Transferencia/MP (6%):</b> +$${recargo.toLocaleString("es-AR")}</p>`;
   }
 
-  mensaje += `*TOTAL FINAL:* $${totalFinal}\n\n`;
-  resumenHTML += `<p style="font-size: 16px; color: #111;"><b>TOTAL FINAL: $${totalFinal}</b></p>`;
+  mensaje += `*TOTAL FINAL:* $${totalFinal.toLocaleString("es-AR")}\n\n`;
+  resumenHTML += `
+    <div style="background: #edf7f1; padding: 12px; border-radius: 8px; border: 1.5px solid #2b543b; margin-top: 10px;">
+      <p style="margin: 0; font-size: 1.15rem; color: #162c1f; text-align: center;">
+        <b>TOTAL FINAL: $${totalFinal.toLocaleString("es-AR")}</b>
+      </p>
+    </div>
+  `;
 
-  // Cálculo del vuelto si paga en Efectivo
+  // Cálculo de vuelto si paga en Efectivo
   if (metodoPago === "Efectivo" && pagoCon > 0) {
     const vuelto = pagoCon - totalFinal;
     if (vuelto >= 0) {
-      mensaje += `💵 *Paga con:* $${pagoCon} (Vuelto: $${vuelto})\n`;
-      resumenHTML += `<p><b>Paga con:</b> $${pagoCon} | <b>Vuelto:</b> $${vuelto}</p>`;
+      mensaje += `💵 *Paga con:* $${pagoCon.toLocaleString("es-AR")} (Vuelto: $${vuelto.toLocaleString("es-AR")})\n`;
+      resumenHTML += `<p style="font-size: 0.88rem; margin-top: 8px; color: #374151;"><b>Abona con:</b> $${pagoCon.toLocaleString("es-AR")} &bull; <b>Vuelto estimado:</b> $${vuelto.toLocaleString("es-AR")}</p>`;
     }
   }
 
@@ -329,22 +448,19 @@ function enviarWhatsApp() {
   }
   if (observaciones) {
     mensaje += `• *Notas:* ${observaciones}\n`;
-    resumenHTML += `<p><b>Notas:</b> ${observaciones}</p>`;
   }
   mensaje += `• *Método de pago:* ${metodoPago}\n`;
 
   if (metodoPago === "Transferencia") {
     mensaje += `\n💳 *DATOS DE TRANSFERENCIA:*\n`;
     mensaje += `• *Alias:* tango.ff\n`;
-    mensaje += `• *Titular:* Thiago sebastian altamirano\n`;
-    mensaje += `_(Pagar $${totalFinal} al alias indicado con el 6% incluido y adjuntar el comprobante de pago a este chat.)_\n`;
+    mensaje += `• *Titular:* Thiago Sebastian Altamirano\n`;
+    mensaje += `_(Pagar $${totalFinal.toLocaleString("es-AR")} al alias indicado con el 6% incluido y adjuntar comprobante a este chat.)_\n`;
   }
 
-  mensaje += `\n¡Quedo a la espera del envío/confirmación!`;
-
+  mensaje += `\n¡Quedo a la espera de la confirmación!`;
   mensajeWhatsAppGenerado = mensaje;
 
-  // Si existe el modal de confirmación en el HTML, lo muestra. Si no, envía directo.
   const modal = document.getElementById("modal-resumen");
   if (modal) {
     document.getElementById("contenido-modal").innerHTML = resumenHTML;
@@ -354,7 +470,9 @@ function enviarWhatsApp() {
   }
 }
 
-// FUNCIONES DEL MODAL
+// -------------------------------------------------------------
+// CONTROLADORES DE MODALES Y WHATSAPP
+// -------------------------------------------------------------
 function cerrarModal() {
   const modal = document.getElementById("modal-resumen");
   if (modal) modal.style.display = "none";
@@ -362,46 +480,57 @@ function cerrarModal() {
 
 function confirmarYEnviarWhatsApp() {
   cerrarModal();
-  const numeroTelefono = "+5491125645240";
-  const url = `https://api.whatsapp.com/send?phone=${+5491125645240}&text=${encodeURIComponent(mensajeWhatsAppGenerado)}`;
-  window.open(url, '_blank');
+  const numeroTelefono = "5491125645240";
+  const url = `https://api.whatsapp.com/send?phone=${numeroTelefono}&text=${encodeURIComponent(mensajeWhatsAppGenerado)}`;
+  window.open(url, "_blank");
 }
 
-// MOSTRAR / OCULTAR INFORMACIÓN Y CONTROLAR CAMPO DE VUELTO
 function mostrarInfoTransferencia() {
   const metodoSelect = document.getElementById("metodo-pago");
   const infoDiv = document.getElementById("info-transferencia");
   const campoVuelto = document.getElementById("campo-vuelto");
-  
+
   if (metodoSelect) {
     if (metodoSelect.value === "Transferencia") {
       if (infoDiv) infoDiv.style.display = "block";
       if (campoVuelto) campoVuelto.style.display = "none";
     } else {
       if (infoDiv) infoDiv.style.display = "none";
-      if (campoVuelto) campoVuelto.style.display = "block";
+      if (campoVuelto) campoVuelto.style.display = "flex";
     }
   }
   actualizarCarrito();
 }
 
-// ACTUALIZAR BOTÓN DE MERCADO PAGO CON MONTO FINAL (ÚNICA FUNCIÓN DEFINITIVA)
 function actualizarBotonMercadoPago(monto) {
   const btnMP = document.getElementById("btn-pago-mp");
   if (!btnMP) return;
 
   let totalCalculado = monto;
-
   if (totalCalculado === undefined) {
     const totalPrecio = document.getElementById("total-precio");
     totalCalculado = totalPrecio ? totalPrecio.textContent : "0";
   }
 
-  btnMP.textContent = `Pagar $${totalCalculado.toLocaleString()} por Mercado Pago 💙`;
-  btnMP.href = `https://link.mercadopago.com.ar/tangofastfood`;
+  btnMP.textContent = `Pagar $${totalCalculado.toLocaleString("es-AR")} por Mercado Pago 💙`;
+  btnMP.href = "https://link.mercadopago.com.ar/tangofastfood";
 }
 
-// VERIFICAR HORARIO DEL LOCAL AL CARGAR LA PÁGINA
+function irAlCarrito() {
+  const seccion = document.getElementById("seccion-carrito");
+  if (seccion) {
+    seccion.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
+// -------------------------------------------------------------
+// INICIALIZACIÓN
+// -------------------------------------------------------------
 window.onload = function() {
   verificarEstadoLocal();
+  // Limpiar clase is-invalid al escribir
+  const inputs = document.querySelectorAll(".input-control");
+  inputs.forEach(input => {
+    input.addEventListener("input", () => input.classList.remove("is-invalid"));
+  });
 };
