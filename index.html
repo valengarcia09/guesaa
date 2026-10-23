@@ -35,22 +35,30 @@
     <span id="texto-estado">Cargando estado del local...</span>
   </div>
 
-  <!-- ENCABEZADO / HERO Y MARCA TANGO -->
+  <!-- ENCABEZADO / HERO CON FOTO REAL Y MARCA TANGO -->
   <header class="hero-header">
-    <div class="logo-container">
-      <div class="logo-badge">
-        <img src="IMG/mascota-limpia.webp" alt="Mascota Tango Fast Food" class="logo-mascota" width="52" height="56">
+    <div class="hero-inner">
+      <div class="hero-texto">
+        <div class="logo-container">
+          <div class="logo-badge">
+            <img src="IMG/mascota-limpia.webp" alt="Mascota Tango Fast Food" class="logo-mascota" width="52" height="56">
+          </div>
+          <div class="logo-brand">
+            <h1 class="logo-text">TANGO</h1>
+            <span class="logo-sub">FAST FOOD</span>
+          </div>
+        </div>
+        <!-- BADGES DE CONFIANZA (Social Proof) -->
+        <div class="badges-confianza" aria-label="Sellos de confianza">
+          <span class="sello-confianza">🥩 <strong>100% Carne Smash</strong></span>
+          <span class="sello-confianza">⚡ <strong>Envíos en 30-45 min</strong></span>
+          <span class="sello-confianza">💳 <strong>Mercado Pago &amp; Efectivo</strong></span>
+        </div>
       </div>
-      <div class="logo-brand">
-        <h1 class="logo-text">TANGO</h1>
-        <span class="logo-sub">FAST FOOD</span>
+      <!-- FOTO REAL DE LA BURGER (apetito en primera pantalla) -->
+      <div class="hero-foto" aria-hidden="true">
+        <img src="IMG/cheeseburguerydoblecuarto.webp" alt="Cheeseburger Tango Fast Food" class="hero-burger-img">
       </div>
-    </div>
-    <!-- BADGES DE CONFIANZA (Social Proof) -->
-    <div class="badges-confianza" aria-label="Sellos de confianza">
-      <span class="sello-confianza">🥩 <strong>100% Carne Smash</strong></span>
-      <span class="sello-confianza">⚡ <strong>Envíos en 30-45 min</strong></span>
-      <span class="sello-confianza">💳 <strong>Mercado Pago &amp; Efectivo</strong></span>
     </div>
   </header>
 
@@ -628,6 +636,17 @@
       </a>
     </div>
   </footer>
+
+  <!-- BARRA DE RESUMEN FIJA (visible con items en el pedido, mientras scrolleás) -->
+  <div id="barra-resumen" class="barra-resumen" aria-live="polite">
+    <button type="button" class="barra-btn" onclick="abrirCarrito()">
+      <span class="barra-izq">
+        🛒 <strong id="barra-items">0</strong><span id="barra-items-txt">&nbsp;items</span>
+      </span>
+      <span class="barra-total" id="barra-total">$0</span>
+      <span class="barra-cta">Ver pedido &rarr;</span>
+    </button>
+  </div>
 
   <!-- BOTÓN FLOTANTE DEL CARRITO (FAB) -->
   <div id="btn-carrito-flotante" class="fab-carrito" onclick="abrirCarrito()">

@@ -1443,6 +1443,171 @@ body {
 }
 
 /* ==========================================================================
+   HERO CON FOTO REAL (logo + sello de burger en primera pantalla)
+   ========================================================================== */
+.hero-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 5vw, 56px);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero-texto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-foto {
+  flex-shrink: 0;
+  width: clamp(175px, 23vw, 280px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(234, 88, 12, 0.85);
+  outline: 12px solid rgba(234, 88, 12, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  animation: hero-flotar 6s ease-in-out infinite;
+}
+
+.hero-burger-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@keyframes hero-flotar {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -9px; }
+}
+
+@media (max-width: 640px) {
+  .hero-inner {
+    flex-direction: column;
+    gap: 22px;
+  }
+  .hero-foto {
+    width: min(56vw, 210px);
+  }
+}
+
+/* ==========================================================================
+   BARRA DE RESUMEN FIJA (conversión móvil: siempre visible con items)
+   ========================================================================== */
+.barra-resumen {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%) translateY(160%);
+  width: min(540px, calc(100% - 32px));
+  z-index: 1200;
+  opacity: 0;
+  pointer-events: none;
+  /* salida más rápida que la entrada (taste: exit < enter) */
+  transition: transform 220ms cubic-bezier(0.4, 0, 1, 1), opacity 190ms ease;
+}
+
+.barra-resumen.visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+  transition: transform 380ms cubic-bezier(0.32, 0.72, 0, 1), opacity 260ms ease;
+}
+
+.barra-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, var(--naranja-tango) 0%, #dc2626 100%);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 14px 18px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radio-pill);
+  box-shadow: var(--sombra-flotante), 0 0 0 8px rgba(234, 88, 12, 0.12);
+  cursor: pointer;
+}
+
+.barra-btn:active {
+  transform: scale(0.98);
+}
+
+.barra-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.barra-izq {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.barra-total {
+  color: #fed7aa;
+  white-space: nowrap;
+}
+
+.barra-cta {
+  margin-left: auto;
+  background: #fff;
+  color: var(--naranja-tango);
+  font-size: 0.85rem;
+  font-weight: 900;
+  padding: 8px 16px;
+  border-radius: var(--radio-pill);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .barra-resumen {
+    left: 12px;
+    right: 12px;
+    width: auto;
+    transform: translateY(calc(100% + 40px));
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+  .barra-resumen.visible {
+    transform: translateY(0);
+  }
+  .barra-btn {
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+  .barra-cta {
+    padding: 7px 12px;
+  }
+}
+
+/* El FAB se retira cuando la barra lo cubre */
+.fab-carrito.fab-oculto {
+  opacity: 0;
+  transform: translateY(10px) scale(0.9);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   STAGGER DE TARJETAS (cascada al entrar en viewport)
+   ========================================================================== */
+.product-card.card-pendiente {
+  opacity: 0;
+  transform: translateY(26px) scale(0.97);
+}
+
+.product-card.card-animada {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: opacity 550ms var(--ease-spring) var(--stagger, 0ms),
+              transform 550ms var(--ease-spring) var(--stagger, 0ms);
+}
+
+/* ==========================================================================
    ACCESIBILIDAD: movimiento reducido
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
@@ -1450,7 +1615,20 @@ body {
   .drawer-backdrop,
   .badge-en-pedido,
   .chip-pan,
-  .btn-cerrar-carrito {
+  .btn-cerrar-carrito,
+  .barra-resumen,
+  .barra-resumen.visible,
+  .product-card.card-pendiente,
+  .product-card.card-animada,
+  .fab-carrito.fab-oculto {
     transition-duration: 1ms;
+    transition-delay: 0ms;
+  }
+  .hero-foto {
+    animation: none;
+  }
+  .product-card.card-pendiente {
+    opacity: 1;
+    transform: none;
   }
 }

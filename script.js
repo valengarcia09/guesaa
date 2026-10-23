@@ -390,6 +390,7 @@ function actualizarCarrito() {
     actualizarBadgesPedido();
     actualizarVueltoEnVivo();
     actualizarUltimoPedidoUI();
+    actualizarBarraResumen();
     guardarCarrito();
     actualizarBotonMercadoPago(0);
     return;
@@ -451,6 +452,7 @@ function actualizarCarrito() {
   actualizarBadgesPedido();
   actualizarVueltoEnVivo();
   actualizarUltimoPedidoUI();
+  actualizarBarraResumen();
   guardarCarrito();
 }
 
@@ -561,6 +563,85 @@ function aplicarFiltrosMenu(query) {
 
   const vacio = document.getElementById("sin-resultados");
   if (vacio) vacio.style.display = visibles === 0 ? "block" : "none";
+}
+
+// -------------------------------------------------------------
+// BARRA DE RESUMEN FIJA (🛒 N items · $total → Ver pedido)
+// Aparece con items en el pedido y el drawer cerrado; tapa el FAB.
+// -------------------------------------------------------------
+function actualizarBarraResumen() {
+  const barra = document.getElementById("barra-resumen");
+  const fab = document.getElementById("btn-carrito-flotante");
+  if (!barra) return;
+
+  let totalItems = 0;
+  carrito.forEach(item => totalItems += (item.cantidad || 1));
+
+  const txtItems = document.getElementById("barra-items");
+  const selloItems = document.getElementById("barra-items-txt");
+  const monto = document.getElementById("barra-total");
+  const drawer = document.getElementById("seccion-carrito");
+  const drawerAbierto = drawer && drawer.classList.contains("abierto");
+
+  if (txtItems) txtItems.textContent = totalItems;
+  if (selloItems) selloItems.textContent = totalItems === 1 ? " item" : " items";
+  if (monto) monto.textContent = `$${totalActualPedido.toLocaleString("es-AR")}`;
+
+  const mostrar = totalItems > 0 && !drawerAbierto;
+  barra.classList.toggle("visible", mostrar);
+  if (fab) fab.classList.toggle("fab-oculto", mostrar);
+}
+
+// -------------------------------------------------------------
+// STAGGER DE TARJETAS (entrada en cascada al hacer scroll)
+// -------------------------------------------------------------
+function iniciarStaggerTarjetas() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!("IntersectionObserver" in window)) return;
+
+  const tarjetas = Array.from(document.querySelectorAll(".product-card"));
+  if (tarjetas.length === 0) return;
+
+  function revelar(card) {
+    if (card.classList.contains("card-animada") || card.dataset.revelada) return;
+    card.dataset.revelada = "1";
+    // columna del grid según posición horizontal (0 en celular, 0-2 en desktop)
+    const gap = 28;
+    const col = Math.max(0, Math.min(2, Math.round(card.getBoundingClientRect().left / (card.offsetWidth + gap))));
+    card.style.setProperty("--stagger", `${col * 80}ms`);
+    card.classList.add("card-animada");
+    // al completar la entrada volvemos al estado base (hover sin retardo de la transición)
+    setTimeout(() => {
+      card.classList.remove("card-animada", "card-pendiente");
+      card.style.removeProperty("--stagger");
+    }, 850 + col * 80);
+  }
+
+  const observador = new IntersectionObserver(entradas => {
+    entradas.forEach(entrada => {
+      if (!entrada.isIntersecting) return;
+      revelar(entrada.target);
+      observador.unobserve(entrada.target);
+    });
+  }, { threshold: 0.1, rootMargin: "0px 0px -36px 0px" });
+
+  tarjetas.forEach(card => {
+    card.classList.add("card-pendiente");
+    observador.observe(card);
+  });
+
+  // Candado: las cards ya visibles al cargar se revelan sí o sí (los observers
+  // dependen de frames de render; en pestañas en segundo plano no corren)
+  setTimeout(() => {
+    tarjetas.forEach(card => {
+      if (card.dataset.revelada) { observador.unobserve(card); return; }
+      const r = card.getBoundingClientRect();
+      if (r.top < window.innerHeight * 0.88 && r.bottom > 0) {
+        revelar(card);
+        observador.unobserve(card);
+      }
+    });
+  }, 80);
 }
 
 // -------------------------------------------------------------
@@ -832,6 +913,7 @@ function abrirCarrito() {
   document.body.style.overflow = "hidden"; // bloquea el scroll de fondo
   backdrop.classList.add("visible");
   drawer.classList.add("abierto");
+  actualizarBarraResumen(); // la barra se retira cuando el drawer está abierto
 
   const btnCerrar = document.getElementById("btn-cerrar-carrito");
   if (btnCerrar) btnCerrar.focus();
@@ -845,6 +927,7 @@ function cerrarCarrito() {
   backdrop.classList.remove("visible");
   drawer.classList.remove("abierto");
   document.body.style.overflow = "";
+  actualizarBarraResumen(); // vuelve a aparecer si el pedido tiene items
 }
 
 // Alias de compatibilidad (otros flujos ya lo llamaban)
@@ -882,4 +965,5 @@ window.onload = function() {
   cargarEstadoGuardado();
   actualizarCarrito();
   actualizarUltimoPedidoUI();
+  iniciarStaggerTarjetas();
 };
