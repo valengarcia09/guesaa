@@ -4,6 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tango Fast Food - Menú Oficial</title>
+  <meta name="description" content="Smash burgers · Pan a elección (Papa, Brioche o Parmesano) · Envíos en 30-45 min. Pedidos por WhatsApp.">
+  <meta name="theme-color" content="#0d1b13">
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="favicon-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- SHARING (WhatsApp/Redes) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Tango Fast Food - Menú Oficial">
+  <meta property="og:description" content="Smash burgers · Pan a elección · Envíos en 30-45 min · Pedidos por WhatsApp.">
+  <meta property="og:image" content="https://valengarcia09.github.io/guesaa/og-tango.png">
+  <meta property="og:url" content="https://valengarcia09.github.io/guesaa/">
+  <meta name="twitter:card" content="summary_large_image">
   
   <!-- Fuentes Google: Bungee para el logo de marca + Montserrat para UI -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,12 +39,7 @@
   <header class="hero-header">
     <div class="logo-container">
       <div class="logo-badge">
-        <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"/>
-          <path d="M19 12a7 7 0 0 0-14 0"/>
-          <path d="M5 8h14"/>
-          <path d="M12 2v4"/>
-        </svg>
+        <img src="IMG/mascota-limpia.webp" alt="Mascota Tango Fast Food" class="logo-mascota">
       </div>
       <div class="logo-brand">
         <h1 class="logo-text">TANGO</h1>
@@ -62,6 +71,11 @@
   <main class="main-container">
     <h2 class="titulo-seccion">NUESTRO MENÚ</h2>
 
+    <!-- VOLVER A PEDIR (aparece si hay un pedido anterior guardado) -->
+    <div id="chip-repetir" class="chip-repetir" style="display: none;">
+      <button type="button" class="btn-repetir" onclick="repetirUltimoPedido()">🔁 Repetir tu último pedido</button>
+    </div>
+
     <!-- BUSCADOR EN TIEMPO REAL -->
     <div class="buscador-container">
       <span class="buscador-icono" aria-hidden="true">🔍</span>
@@ -83,7 +97,7 @@
       <article class="product-card" data-category="burgers">
         <div class="product-img-wrapper">
           <span class="card-badge">Smash Burger</span>
-          <img src="IMG/cheeseburguerydoblecuarto.jpeg" alt="Cheeseburger" class="product-img" loading="lazy">
+          <img src="IMG/cheeseburguerydoblecuarto.webp" alt="Cheeseburger" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -120,7 +134,7 @@
       <article class="product-card" data-category="burgers">
         <div class="product-img-wrapper">
           <span class="card-badge">Smash Burger</span>
-          <img src="IMG/baconcheese.jpeg" alt="Bacon Cheese" class="product-img" loading="lazy">
+          <img src="IMG/baconcheese.webp" alt="Bacon Cheese" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -157,7 +171,7 @@
       <article class="product-card" data-category="burgers">
         <div class="product-img-wrapper">
           <span class="card-badge">Smash Burger</span>
-          <img src="IMG/clasica.jpeg" alt="Clásica" class="product-img" loading="lazy">
+          <img src="IMG/clasica.webp" alt="Clásica" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -194,7 +208,7 @@
       <article class="product-card" data-category="burgers">
         <div class="product-img-wrapper">
           <span class="card-badge">Smash Burger</span>
-          <img src="IMG/crispytango.jpeg" alt="Crispy Tango" class="product-img" loading="lazy">
+          <img src="IMG/crispytango.webp" alt="Crispy Tango" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -231,7 +245,7 @@
       <article class="product-card" data-category="burgers">
         <div class="product-img-wrapper">
           <span class="card-badge">Smash Burger</span>
-          <img src="IMG/oklahoma.jpeg" alt="Oklahoma" class="product-img" loading="lazy">
+          <img src="IMG/oklahoma.webp" alt="Oklahoma" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -268,7 +282,7 @@
       <article class="product-card" data-category="burgers">
         <div class="product-img-wrapper">
           <span class="card-badge">Smash Burger</span>
-          <img src="IMG/americana.jpeg" alt="Americana" class="product-img" loading="lazy">
+          <img src="IMG/americana.webp" alt="Americana" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -305,7 +319,7 @@
       <article class="product-card" data-category="burgers">
         <div class="product-img-wrapper">
           <span class="card-badge">Smash Burger</span>
-          <img src="IMG/cheeseburguerydoblecuarto.jpeg" alt="Cuarto de Libra" class="product-img" loading="lazy">
+          <img src="IMG/cheeseburguerydoblecuarto.webp" alt="Cuarto de Libra" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -343,7 +357,7 @@
       <article class="product-card" data-category="guarniciones">
         <div class="product-img-wrapper">
           <span class="card-badge">Guarnición</span>
-          <img src="IMG/porcionpapasclasicas.jpeg" alt="Porción Papas Clásicas" class="product-img" loading="lazy">
+          <img src="IMG/porcionpapasclasicas.webp" alt="Porción Papas Clásicas" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -360,7 +374,7 @@
       <article class="product-card" data-category="guarniciones">
         <div class="product-img-wrapper">
           <span class="card-badge">Guarnición</span>
-          <img src="IMG/papastango.jpeg" alt="Porción Papas Tango" class="product-img" loading="lazy">
+          <img src="IMG/papastango.webp" alt="Porción Papas Tango" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -377,7 +391,7 @@
       <article class="product-card" data-category="guarniciones">
         <div class="product-img-wrapper">
           <span class="card-badge">Guarnición</span>
-          <img src="IMG/papasconcheddar.jpeg" alt="Porción Papas c/ Cheddar" class="product-img" loading="lazy">
+          <img src="IMG/papasconcheddar.webp" alt="Porción Papas c/ Cheddar" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -395,7 +409,7 @@
       <article class="product-card" data-category="adicionales">
         <div class="product-img-wrapper">
           <span class="card-badge">Adicional</span>
-          <img src="IMG/carneextra.jpeg" alt="Blend de Carne" class="product-img" loading="lazy">
+          <img src="IMG/carneextra.webp" alt="Blend de Carne" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -412,7 +426,7 @@
       <article class="product-card" data-category="adicionales">
         <div class="product-img-wrapper">
           <span class="card-badge">Adicional</span>
-          <img src="IMG/adicionalcheddar.jpeg" alt="Extra Cheddar" class="product-img" loading="lazy">
+          <img src="IMG/adicionalcheddar.webp" alt="Extra Cheddar" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -429,7 +443,7 @@
       <article class="product-card" data-category="adicionales">
         <div class="product-img-wrapper">
           <span class="card-badge">Adicional</span>
-          <img src="IMG/bacon.jpeg" alt="Extra Bacon" class="product-img" loading="lazy">
+          <img src="IMG/bacon.webp" alt="Extra Bacon" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -446,7 +460,7 @@
       <article class="product-card" data-category="adicionales">
         <div class="product-img-wrapper">
           <span class="card-badge">Adicional</span>
-          <img src="IMG/huevo.jpeg" alt="Huevo" class="product-img" loading="lazy">
+          <img src="IMG/huevo.webp" alt="Huevo" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -463,7 +477,7 @@
       <article class="product-card" data-category="adicionales">
         <div class="product-img-wrapper">
           <span class="card-badge">Adicional</span>
-          <img src="IMG/cebollacaramelizada.jpeg" alt="Cebolla" class="product-img" loading="lazy">
+          <img src="IMG/cebollacaramelizada.webp" alt="Cebolla" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -480,7 +494,7 @@
       <article class="product-card" data-category="adicionales">
         <div class="product-img-wrapper">
           <span class="card-badge">Adicional</span>
-          <img src="IMG/baconverdeocheddaradicional.jpeg" alt="Cheddar, Bacon y Verdeo en Papas" class="product-img" loading="lazy">
+          <img src="IMG/baconverdeocheddaradicional.webp" alt="Cheddar, Bacon y Verdeo en Papas" class="product-img" loading="lazy">
         </div>
         <div class="card-content">
           <div class="card-header-info">
@@ -508,6 +522,8 @@
       <h2>🛒 TU PEDIDO</h2>
       <button type="button" id="btn-cerrar-carrito" class="btn-cerrar-carrito" onclick="cerrarCarrito()" aria-label="Cerrar carrito">&times;</button>
     </div>
+
+    <div id="ultimo-pedido-fecha" class="ultimo-pedido-fecha" style="display: none;"></div>
 
     <div id="lista-carrito">
       <p style="text-align: center; color: #6b7280; padding: 20px 0;">No has agregado ningún producto aún.</p>

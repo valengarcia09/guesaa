@@ -1109,6 +1109,104 @@ body {
 }
 
 /* ==========================================================================
+   LOGO CON MASCOTA
+   ========================================================================== */
+.logo-badge {
+  background: var(--verde-profundo);
+  border: 2.5px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.logo-mascota {
+  width: 52px;
+  height: 56px;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.3s var(--ease-spring);
+}
+
+.logo-container:hover .logo-mascota {
+  transform: rotate(-8deg) scale(1.08);
+}
+
+/* ==========================================================================
+   STENCIL DE MARCA (TANGO gigante detrás del grid)
+   ========================================================================== */
+.main-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.main-container::before {
+  content: "TANGO";
+  position: absolute;
+  top: 430px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Bungee', cursive, sans-serif;
+  font-size: clamp(200px, 30vw, 420px);
+  line-height: 0.85;
+  color: rgba(255, 255, 255, 0.045);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.main-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   CHIP "REPETIR ÚLTIMO PEDIDO"
+   ========================================================================== */
+.chip-repetir {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 24px;
+}
+
+.btn-repetir {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 800;
+  padding: 11px 22px;
+  border-radius: var(--radio-pill);
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, transform 120ms ease-out;
+}
+
+.btn-repetir:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.btn-repetir:active {
+  transform: scale(0.97);
+}
+
+.btn-repetir:focus-visible {
+  outline: 2px solid var(--naranja-tango);
+  outline-offset: 2px;
+}
+
+/* Fecha del último pedido dentro del drawer */
+.ultimo-pedido-fecha {
+  text-align: center;
+  color: var(--gris-500);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 10px 0 2px;
+}
+
+/* ==========================================================================
    BUSCADOR EN TIEMPO REAL
    ========================================================================== */
 .buscador-container {

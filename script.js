@@ -13,6 +13,7 @@ let categoriaActiva = "todas";
 // -------------------------------------------------------------
 const LS_CARRITO = "tango_carrito_v1";
 const LS_CLIENTE = "tango_cliente_v1";
+const LS_ULTIMO_PEDIDO = "tango_ultimo_pedido_v1";
 
 function guardarCarrito() {
   try {
@@ -63,7 +64,70 @@ function cargarEstadoGuardado() {
 }
 
 // -------------------------------------------------------------
-// SISTEMA DE TOASTS FLUIDOS (Inspirado en Sonner / Emil Kowalski)
+// ÚLTIMO PEDIDO: guardarlo al enviar + chip "Repetir" + fecha en drawer
+// -------------------------------------------------------------
+function guardarUltimoPedido() {
+  if (carrito.length === 0) return;
+  try {
+    localStorage.setItem(LS_ULTIMO_PEDIDO, JSON.stringify({
+      fecha: new Date().toISOString(),
+      items: JSON.parse(JSON.stringify(carrito))
+    }));
+  } catch (e) {
+    // sin almacenamiento
+  }
+  actualizarUltimoPedidoUI();
+}
+
+function leerUltimoPedido() {
+  try {
+    const guardado = localStorage.getItem(LS_ULTIMO_PEDIDO);
+    if (!guardado) return null;
+    const parseado = JSON.parse(guardado);
+    if (Array.isArray(parseado.items) && parseado.items.length > 0) return parseado;
+    return null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function repetirUltimoPedido() {
+  const ultimo = leerUltimoPedido();
+  if (!ultimo) return;
+  carrito = JSON.parse(JSON.stringify(ultimo.items));
+  guardarCarrito();
+  actualizarCarrito();
+  abrirCarrito();
+  mostrarToast("Pedido cargado. Revisalo y mandalo 🍔", "burger");
+}
+
+function formatearFechaPedido(iso) {
+  const fecha = new Date(iso);
+  if (isNaN(fecha)) return "";
+  const dia = fecha.toLocaleDateString("es-AR", { weekday: "long" });
+  const hora = fecha.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+  return `${dia.charAt(0).toUpperCase()}${dia.slice(1)} ${hora} hs`;
+}
+
+function actualizarUltimoPedidoUI() {
+  const ultimo = leerUltimoPedido();
+  const chip = document.getElementById("chip-repetir");
+  const fechaDiv = document.getElementById("ultimo-pedido-fecha");
+
+  if (chip) chip.style.display = (ultimo && carrito.length === 0) ? "flex" : "none";
+
+  if (fechaDiv) {
+    if (ultimo && ultimo.fecha) {
+      fechaDiv.textContent = `Último pedido: ${formatearFechaPedido(ultimo.fecha)}`;
+      fechaDiv.style.display = "block";
+    } else {
+      fechaDiv.style.display = "none";
+    }
+  }
+}
+
+// -------------------------------------------------------------
+// TOASTS FLUIDOS (Inspirado en Sonner / Emil Kowalski)
 // -------------------------------------------------------------
 function mostrarToast(mensaje, tipo = "success") {
   const container = document.getElementById("toast-container");
@@ -325,6 +389,7 @@ function actualizarCarrito() {
     totalActualPedido = 0;
     actualizarBadgesPedido();
     actualizarVueltoEnVivo();
+    actualizarUltimoPedidoUI();
     guardarCarrito();
     actualizarBotonMercadoPago(0);
     return;
@@ -385,6 +450,7 @@ function actualizarCarrito() {
   actualizarBotonMercadoPago(totalFinal);
   actualizarBadgesPedido();
   actualizarVueltoEnVivo();
+  actualizarUltimoPedidoUI();
   guardarCarrito();
 }
 
@@ -644,6 +710,7 @@ function cerrarModal() {
 function confirmarYEnviarWhatsApp() {
   cerrarModal();
   cerrarCarrito();
+  guardarUltimoPedido(); // snapshot para "Repetir tu último pedido"
   const numeroTelefono = "5491125645240";
   const url = `https://api.whatsapp.com/send?phone=${numeroTelefono}&text=${encodeURIComponent(mensajeWhatsAppGenerado)}`;
   // Confeti de celebración (no bloqueante, el popup abre en el mismo gesto)
@@ -814,4 +881,5 @@ window.onload = function() {
   // Restaurar carrito y datos guardados
   cargarEstadoGuardado();
   actualizarCarrito();
+  actualizarUltimoPedidoUI();
 };
