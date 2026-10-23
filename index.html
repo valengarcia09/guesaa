@@ -608,6 +608,7 @@
     </div>
   </footer>
 
+<<<<<<< HEAD
   <!-- BOTÓN FLOTANTE DEL CARRITO (FAB) -->
   <div id="btn-carrito-flotante" class="fab-carrito" onclick="irAlCarrito()">
     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -617,6 +618,16 @@
     </svg>
     <span id="badge-contador" class="fab-badge">0</span>
   </div>
+=======
+  <!-- BOTÓN FLOTANTE DEL CARRITO -->
+  <div id="btn-carrito-flotante" onclick="document.querySelector('.carrito-section').scrollIntoView({ behavior: 'smooth' });" style="position: fixed; bottom: 20px; right: 20px; background: #e63946; color: white; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; z-index: 1000;">
+  
+  <!-- Ícono de Flaticon -->
+  <img src="IMG/carrito.png" alt="Carrito de compras" style="width: 26px; height: 26px; object-fit: contain;">
+  
+  <span id="badge-contador" style="position: absolute; top: -5px; right: -5px; background: #fff; color: #e63946; font-size: 12px; font-weight: bold; padding: 3px 7px; border-radius: 50%; border: 2px solid #f7f5f5;">0</span>
+</div>
+>>>>>>> 5285e6ca504d3e304ded37c5997fc71cedf7646d
 
   <!-- MODAL DE RESUMEN DE PEDIDO -->
   <div id="modal-resumen" class="modal-overlay">
